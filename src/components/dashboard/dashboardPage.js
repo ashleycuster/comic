@@ -8,8 +8,11 @@ var SunburstChart = require('./sunburstChart');
 var width = 550; 
 var height = 400; 
 var radius = Math.min(width, height) / 2;
-var panelBorderColor = "#5b616b";
+var panelBorderColor = "#aeb0b5";
 var cdmTitle = "Risk Evaluation of CDM Agencies";
+var barTitle = "Sample bar chart";
+var scatterTitle = "Sample scatter plot";
+var tableTitle = "Sample table";
 var panelHeaderHeight = 30;
 var isThumbnail = {
 	"sunburst": true,
@@ -40,6 +43,9 @@ var Dashboard = React.createClass({
           thumbRadius: thumbRadius,
           panelBorderColor: panelBorderColor,
           cdmTitle: cdmTitle,
+          barTitle: barTitle,
+          scatterTitle: scatterTitle,
+          tableTitle: tableTitle,
           panelHeaderHeight: panelHeaderHeight
         };
     },
@@ -67,7 +73,6 @@ var Dashboard = React.createClass({
 	},
 
     render: function () {
-		console.log(this.getPanelWidth("sunburst"));
 		return (
 			<div>
 				<Panel width={this.getPanelWidth("sunburst")}
@@ -79,6 +84,27 @@ var Dashboard = React.createClass({
 						height={this.getHeight("sunburst")}
 						radius={this.getRadius("sunburst")}
 						hideInfo={this.state.isThumbnail.sunburst} />
+				</Panel>
+				<Panel width={this.getPanelWidth("bar")}
+					height={this.getHeight("bar") + this.props.panelHeaderHeight * 2 + 5}
+					borderColor={this.props.panelBorderColor}
+					title={this.props.barTitle}
+					headerHeight={this.props.panelHeaderHeight}>
+					<p>placeholder</p>
+				</Panel>
+				<Panel width={this.getPanelWidth("scatter")}
+					height={this.getHeight("scatter") + this.props.panelHeaderHeight * 2 + 5}
+					borderColor={this.props.panelBorderColor}
+					title={this.props.scatterTitle}
+					headerHeight={this.props.panelHeaderHeight}>
+					<p>placeholder</p>
+				</Panel>
+				<Panel width={this.getPanelWidth("table")}
+					height={this.getHeight("table") + this.props.panelHeaderHeight * 2 + 5}
+					borderColor={this.props.panelBorderColor}
+					title={this.props.tableTitle}
+					headerHeight={this.props.panelHeaderHeight}>
+					<p>placeholder</p>
 				</Panel>
 			</div>
 			);

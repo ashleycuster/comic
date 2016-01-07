@@ -18,7 +18,6 @@ var Panel = React.createClass({
 	},
 
 	render: function () {
-		console.log(this.props.width);
 		return (
 				<div className="panel" style={{ display: "block", backgroundColor: "white", height: this.props.height, width: this.props.width, borderColor: this.props.borderColor }}>
 					<PanelHeader borderColor={this.props.borderColor} title={this.props.title} height={this.props.headerHeight.toString() + "px"} />

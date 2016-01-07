@@ -9,7 +9,7 @@ body {
 
 .dashHeader {
 	background-color: #205493;
-	font-family: 'Merriweather';
+	/*font-family: 'Merriweather';*/
 	width: 100%;
 	position: fixed;
 	top: 0px;

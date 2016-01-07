@@ -11,12 +11,12 @@ var PanelHeader = React.createClass({
 
 	getDefaultProps: function () {
 		return {
-			backgroundColor: "#aeb0b5",
+			backgroundColor: "#dce4ef",
 			borderBottomWidth: "thin",
 			marginTop: "0px",
 			marginLeft: "0px",
 			borderRadius: "4px",
-			borderStyle: "outset", 
+			borderStyle: "solid", 
 			pMarginLeft: "10px"
 		};
 	},
