@@ -35,7 +35,7 @@ var Dashboard = React.createClass({
 		return (
 			<div>
 				<Panel width={this.props.width}
-					height={this.props.height + this.props.panelHeaderHeight * 2}
+					height={this.props.height + this.props.panelHeaderHeight * 2 + 5}
 					borderColor={this.props.panelBorderColor}
 					title={this.props.cdmTitle}
 					headerHeight={this.props.panelHeaderHeight}>

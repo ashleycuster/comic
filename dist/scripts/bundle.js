@@ -75810,7 +75810,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 		return (
 			React.createElement("div", null, 
 				React.createElement(Panel, {width: this.props.width, 
-					height: this.props.height + this.props.panelHeaderHeight * 2, 
+					height: this.props.height + this.props.panelHeaderHeight * 2 + 5, 
 					borderColor: this.props.panelBorderColor, 
 					title: this.props.cdmTitle, 
 					headerHeight: this.props.panelHeaderHeight}, 
@@ -75956,7 +75956,7 @@ var PanelHeader = React.createClass({displayName: "PanelHeader",
 	render: function () {
 		return (
 				React.createElement("div", {style: this.getStyles()}, 
-					React.createElement("p", {style: {marginLeft: this.props.pMarginLeft}}, this.props.title)
+					React.createElement("p", {style: {marginLeft: this.props.pMarginLeft, color: this.props.borderColor}}, this.props.title)
 				)
 			);
 	}

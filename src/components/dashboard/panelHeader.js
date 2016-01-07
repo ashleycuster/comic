@@ -39,7 +39,7 @@ var PanelHeader = React.createClass({
 	render: function () {
 		return (
 				<div style={this.getStyles()}>
-					<p style={{marginLeft: this.props.pMarginLeft}}>{this.props.title}</p>
+					<p style={{marginLeft: this.props.pMarginLeft, color: this.props.borderColor}}>{this.props.title}</p>
 				</div>
 			);
 	}
