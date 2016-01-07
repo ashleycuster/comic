@@ -72,7 +72,8 @@ var SunburstChart = React.createClass({
             <Info marginLeft={this.props.width}
                   agencyName={this.state.agencyName}
                   riskScore={this.state.riskScore}
-                  highlightedNodes={this.state.highlightedNodes} />
+                  highlightedNodes={this.state.highlightedNodes}
+                  display={this.props.hideInfo ? "none" : "inline"} />
         </div>
     );
   }

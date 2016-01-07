@@ -11,7 +11,7 @@ var Info = React.createClass({
 
 	render: function () {
 		return (
-				<div width="1000px" style={{ marginLeft: this.props.marginLeft }}>
+				<div width="1000px" style={{ marginLeft: this.props.marginLeft, display: this.props.display }}>
 					<h1>{this.props.agencyName}, Risk Score: {this.props.riskScore}</h1>
 					<table style={{ marginTop: "20px", marginLeft: "20px"}}>
 						<tbody>

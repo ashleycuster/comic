@@ -24,6 +24,8 @@ var DashboardApi = {
 	// root to leaf, separated by hyphens. The second column is a count of how 
 	// often that sequence occurred.
 	buildHierarchy: function (csv) {
+		var childrenStr = "children";
+		var nameStr = "name";
 		var root = {"name": "root", "children": []};
 		for (var i = 0; i < csv.length; i++) {
 			var sequence = csv[i][0];
@@ -34,14 +36,14 @@ var DashboardApi = {
 		var parts = sequence.split("-");
 		var currentNode = root;
 		for (var j = 0; j < parts.length; j++) {
-			var children = currentNode["children"];
+			var children = currentNode[childrenStr];
 			var nodeName = parts[j];
 			var childNode;
 			if (j + 1 < parts.length) {
 				// Not yet at the end of the sequence; move down the tree.
 				var foundChild = false;
 				for (var k = 0; k < children.length; k++) {
-					if (children[k]["name"] === nodeName) {
+					if (children[k][nameStr] === nodeName) {
 						childNode = children[k];
 						foundChild = true;
 						break;

@@ -6,7 +6,7 @@ var PanelHeader = React.createClass({
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		borderColor: React.PropTypes.string.isRequired,
-		height: React.PropTypes.number.isRequired
+		height: React.PropTypes.string.isRequired
 	},
 
 	getDefaultProps: function () {

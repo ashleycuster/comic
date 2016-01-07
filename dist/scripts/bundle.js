@@ -75282,6 +75282,8 @@ var DashboardApi = {
 	// root to leaf, separated by hyphens. The second column is a count of how 
 	// often that sequence occurred.
 	buildHierarchy: function (csv) {
+		var childrenStr = "children";
+		var nameStr = "name";
 		var root = {"name": "root", "children": []};
 		for (var i = 0; i < csv.length; i++) {
 			var sequence = csv[i][0];
@@ -75292,14 +75294,14 @@ var DashboardApi = {
 		var parts = sequence.split("-");
 		var currentNode = root;
 		for (var j = 0; j < parts.length; j++) {
-			var children = currentNode["children"];
+			var children = currentNode[childrenStr];
 			var nodeName = parts[j];
 			var childNode;
 			if (j + 1 < parts.length) {
 				// Not yet at the end of the sequence; move down the tree.
 				var foundChild = false;
 				for (var k = 0; k < children.length; k++) {
-					if (children[k]["name"] === nodeName) {
+					if (children[k][nameStr] === nodeName) {
 						childNode = children[k];
 						foundChild = true;
 						break;
@@ -75786,6 +75788,16 @@ var radius = Math.min(width, height) / 2;
 var panelBorderColor = "#5b616b";
 var cdmTitle = "Risk Evaluation of CDM Agencies";
 var panelHeaderHeight = 30;
+var isThumbnail = {
+	"sunburst": true,
+	"bar": true,
+	"scatter": true,
+	"table": true
+};
+var thumbWidth = 350;
+var thumbHeight = 200;
+var thumbRadius = Math.min(thumbWidth, thumbHeight) / 2;
+var sunburst = "sunburst";
 
 
 var Dashboard = React.createClass({displayName: "Dashboard",
@@ -75800,23 +75812,50 @@ var Dashboard = React.createClass({displayName: "Dashboard",
           width: width,
           height: height,
           radius: radius,
+          thumbHeight: thumbHeight,
+          thumbWidth: thumbWidth,
+          thumbRadius: thumbRadius,
           panelBorderColor: panelBorderColor,
           cdmTitle: cdmTitle,
           panelHeaderHeight: panelHeaderHeight
         };
     },
 
+	getInitialState: function () {
+		return {
+			isThumbnail: isThumbnail
+		};
+	},
+
+	getPanelWidth: function (panelName) {
+		return this.state.isThumbnail[panelName] ? this.props.thumbWidth : this.props.width * 2;
+	},
+
+	getWidth: function (panelName) {
+		return this.state.isThumbnail[panelName] ? this.props.thumbWidth : this.props.width;
+	},
+
+	getHeight: function (panelName) {
+		return this.state.isThumbnail[panelName] ? this.props.thumbHeight : this.props.height;
+	},
+
+	getRadius: function (panelName) {
+		return this.state.isThumbnail[panelName] ? this.props.thumbRadius : this.props.radius;
+	},
+
     render: function () {
+		console.log(this.getPanelWidth("sunburst"));
 		return (
 			React.createElement("div", null, 
-				React.createElement(Panel, {width: this.props.width, 
-					height: this.props.height + this.props.panelHeaderHeight * 2 + 5, 
+				React.createElement(Panel, {width: this.getPanelWidth("sunburst"), 
+					height: this.getHeight("sunburst") + this.props.panelHeaderHeight * 2 + 5, 
 					borderColor: this.props.panelBorderColor, 
 					title: this.props.cdmTitle, 
 					headerHeight: this.props.panelHeaderHeight}, 
-					React.createElement(SunburstChart, {width: this.props.width, 
-						height: this.props.height, 
-						radius: this.props.radius})
+					React.createElement(SunburstChart, {width: this.getWidth("sunburst"), 
+						height: this.getHeight("sunburst"), 
+						radius: this.getRadius("sunburst"), 
+						hideInfo: this.state.isThumbnail.sunburst})
 				)
 			)
 			);
@@ -75839,7 +75878,7 @@ var Info = React.createClass({displayName: "Info",
 
 	render: function () {
 		return (
-				React.createElement("div", {width: "1000px", style: { marginLeft: this.props.marginLeft}}, 
+				React.createElement("div", {width: "1000px", style: { marginLeft: this.props.marginLeft, display: this.props.display}}, 
 					React.createElement("h1", null, this.props.agencyName, ", Risk Score: ", this.props.riskScore), 
 					React.createElement("table", {style: { marginTop: "20px", marginLeft: "20px"}}, 
 						React.createElement("tbody", null, 
@@ -75903,8 +75942,9 @@ var Panel = React.createClass({displayName: "Panel",
 	},
 
 	render: function () {
+		console.log(this.props.width);
 		return (
-				React.createElement("div", {className: "panel", style: { display: "block", backgroundColor: "white", height: this.props.height, width: this.props.width * 2, borderColor: this.props.borderColor}}, 
+				React.createElement("div", {className: "panel", style: { display: "block", backgroundColor: "white", height: this.props.height, width: this.props.width, borderColor: this.props.borderColor}}, 
 					React.createElement(PanelHeader, {borderColor: this.props.borderColor, title: this.props.title, height: this.props.headerHeight.toString() + "px"}), 
 					this.props.children
 				)
@@ -75923,7 +75963,7 @@ var PanelHeader = React.createClass({displayName: "PanelHeader",
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		borderColor: React.PropTypes.string.isRequired,
-		height: React.PropTypes.number.isRequired
+		height: React.PropTypes.string.isRequired
 	},
 
 	getDefaultProps: function () {
@@ -76147,7 +76187,8 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
             React.createElement(Info, {marginLeft: this.props.width, 
                   agencyName: this.state.agencyName, 
                   riskScore: this.state.riskScore, 
-                  highlightedNodes: this.state.highlightedNodes})
+                  highlightedNodes: this.state.highlightedNodes, 
+                  display: this.props.hideInfo ? "none" : "inline"})
         )
     );
   }
