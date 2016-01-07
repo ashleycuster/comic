@@ -226,13 +226,13 @@ button.toast-close-button {
  *  --- END ---
  * Developers: Do not remove this notification or license.
  */
-body {
+/*body {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   font-weight: 400;
   background-color: #fff;
   margin-top: 10px;
-}
+}*/
 
 #main {
   float: left;
@@ -280,3 +280,32 @@ body {
   font-size: 2.5em;
 }
 
+
+body {
+	background-color: #d6d7d9;
+	font-family: 'Source Sans Pro', 'Merriweather';
+}
+
+.heading {
+	font-family: 'Merriweather';
+}
+
+.dashHeader {
+	background-color: #205493;
+	font-family: 'Merriweather';
+	width: 100%;
+	position: fixed;
+	top: 0px;
+}
+
+#content {
+	margin-top: 80px;
+}
+
+.nav > li > a {
+	color: white;
+}
+
+.panelHeader {
+	margin: auto 0 auto 0px;
+}

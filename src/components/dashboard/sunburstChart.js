@@ -1,4 +1,4 @@
-"use strict"; 
+"use strict";
 
 var React = require('react'); 
 var SunburstStore = require('../../stores/sunburstStore');
@@ -61,18 +61,18 @@ var SunburstChart = React.createClass({
     }
     return (
         <div>
-         <svg width={this.props.width} height={this.props.height} style={{float: "left"}} >
-              <Path height={this.props.height}
-                    width={this.props.width}
-                    radius={this.props.radius}
-                    arcData={this.state.arcData}
-                    highlightedNodes={this.state.highlightedNodes}
-                    fillOpacity={this.state.fillOpacity} />
-          </svg>
-          <Info marginLeft={this.props.width}
-                agencyName={this.state.agencyName}
-                riskScore={this.state.riskScore}
-                highlightedNodes={this.state.highlightedNodes} />
+           <svg width={this.props.width} height={this.props.height} style={{float: "left"}} >
+                <Path height={this.props.height}
+                      width={this.props.width}
+                      radius={this.props.radius}
+                      arcData={this.state.arcData}
+                      highlightedNodes={this.state.highlightedNodes}
+                      fillOpacity={this.state.fillOpacity} />
+            </svg>
+            <Info marginLeft={this.props.width}
+                  agencyName={this.state.agencyName}
+                  riskScore={this.state.riskScore}
+                  highlightedNodes={this.state.highlightedNodes} />
         </div>
     );
   }

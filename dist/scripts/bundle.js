@@ -75134,7 +75134,7 @@ var AuthorActions = {
 
 module.exports = AuthorActions; 
 
-},{"../api/authorApi":431,"../constants/actionTypes":448,"../dispatcher/appDispatcher":449}],429:[function(require,module,exports){
+},{"../api/authorApi":431,"../constants/actionTypes":450,"../dispatcher/appDispatcher":451}],429:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher');
@@ -75154,7 +75154,7 @@ var InitializeActions = {
 
 module.exports = InitializeActions; 
 
-},{"../api/authorApi":431,"../constants/actionTypes":448,"../dispatcher/appDispatcher":449}],430:[function(require,module,exports){
+},{"../api/authorApi":431,"../constants/actionTypes":450,"../dispatcher/appDispatcher":451}],430:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -75181,7 +75181,7 @@ var SunburstActions = {
 
 module.exports = SunburstActions; 
 
-},{"../constants/actionTypes":448,"../dispatcher/appDispatcher":449}],431:[function(require,module,exports){
+},{"../constants/actionTypes":450,"../dispatcher/appDispatcher":451}],431:[function(require,module,exports){
 "use strict";
 
 //This file is mocking a web API by hitting hard coded data.
@@ -75471,7 +75471,7 @@ var App = React.createClass({displayName: "App",
 		return (
 			React.createElement("div", null, 
 				React.createElement(Header, null), 
-				React.createElement("div", {className: "container-fluid"}, 
+				React.createElement("div", {className: "container-fluid", id: "content"}, 
 					React.createElement(RouteHandler, null)
 				)
 			)
@@ -75608,7 +75608,7 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
 
 module.exports = AuthorPage; 
 
-},{"../../actions/authorActions":428,"../../stores/authorStore":452,"./authorList":437,"react":426,"react-router":253}],439:[function(require,module,exports){
+},{"../../actions/authorActions":428,"../../stores/authorStore":454,"./authorList":437,"react":426,"react-router":253}],439:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75705,7 +75705,7 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
 
 module.exports = ManageAuthorPage; 
 
-},{"../../actions/authorActions":428,"../../stores/authorStore":452,"./authorForm":436,"react":426,"react-router":253,"toastr":427}],440:[function(require,module,exports){
+},{"../../actions/authorActions":428,"../../stores/authorStore":454,"./authorForm":436,"react":426,"react-router":253,"toastr":427}],440:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75715,13 +75715,13 @@ var Link = Router.Link;
 var Header = React.createClass({displayName: "Header",
 	render: function () {
 		return (
-				React.createElement("nav", {className: "navbar navbar-default"}, 
+				React.createElement("nav", {className: "nav dashHeader"}, 
 					React.createElement("div", {className: "container-fluid"}, 
 						React.createElement("ul", {className: "nav navbar-nav"}, 
 							React.createElement("li", null, React.createElement(Link, {to: "app"}, "ReactD3")), 
-							React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
-							React.createElement("li", null, React.createElement(Link, {to: "about"}, "About")), 
-							React.createElement("li", null, React.createElement(Link, {to: "dashboard"}, "Dashboard"))
+							React.createElement("li", null, React.createElement(Link, {to: "app"}, "HOME")), 
+							React.createElement("li", null, React.createElement(Link, {to: "about"}, "ABOUT")), 
+							React.createElement("li", null, React.createElement(Link, {to: "dashboard"}, "DASHBOARD"))
 						)
 					)
 				) 
@@ -75777,11 +75777,15 @@ module.exports = TextInput;
 
 var React = require('react'); 
 var Router = require('react-router'); 
+var Panel = require('./panel');
 var SunburstChart = require('./sunburstChart'); 
 
 var width = 550; 
 var height = 400; 
 var radius = Math.min(width, height) / 2;
+var panelBorderColor = "#5b616b";
+var cdmTitle = "Risk Evaluation of CDM Agencies";
+var panelHeaderHeight = 30;
 
 
 var Dashboard = React.createClass({displayName: "Dashboard",
@@ -75795,17 +75799,25 @@ var Dashboard = React.createClass({displayName: "Dashboard",
         return {
           width: width,
           height: height,
-          radius: radius
+          radius: radius,
+          panelBorderColor: panelBorderColor,
+          cdmTitle: cdmTitle,
+          panelHeaderHeight: panelHeaderHeight
         };
     },
 
     render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement("hr", null), 
+				React.createElement(Panel, {width: this.props.width, 
+					height: this.props.height + this.props.panelHeaderHeight * 2, 
+					borderColor: this.props.panelBorderColor, 
+					title: this.props.cdmTitle, 
+					headerHeight: this.props.panelHeaderHeight}, 
 					React.createElement(SunburstChart, {width: this.props.width, 
 						height: this.props.height, 
 						radius: this.props.radius})
+				)
 			)
 			);
 	}
@@ -75813,7 +75825,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;         
 
-},{"./sunburstChart":445,"react":426,"react-router":253}],443:[function(require,module,exports){
+},{"./panel":444,"./sunburstChart":447,"react":426,"react-router":253}],443:[function(require,module,exports){
 "use strict";
 
 var React = require('react'); 
@@ -75870,7 +75882,89 @@ var Info = React.createClass({displayName: "Info",
 
 module.exports = Info; 
 
-},{"../../stores/sunburstStore":453,"react":426}],444:[function(require,module,exports){
+},{"../../stores/sunburstStore":455,"react":426}],444:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var PanelHeader = require('./panelHeader');
+
+var Panel = React.createClass({displayName: "Panel",
+	propTypes: {
+		height: React.PropTypes.number.isRequired,
+		width: React.PropTypes.number.isRequired,
+		borderColor: React.PropTypes.string.isRequired,
+		title: React.PropTypes.string.isRequired,
+		headerHeight: React.PropTypes.number.isRequired
+		// position: React.PropTypes.string.isRequired
+	},
+
+	setPosition: function (position) {
+		return;
+	},
+
+	render: function () {
+		return (
+				React.createElement("div", {className: "panel", style: { display: "block", backgroundColor: "white", height: this.props.height, width: this.props.width * 2, borderColor: this.props.borderColor}}, 
+					React.createElement(PanelHeader, {borderColor: this.props.borderColor, title: this.props.title, height: this.props.headerHeight.toString() + "px"}), 
+					this.props.children
+				)
+			);
+	}
+});
+
+module.exports = Panel; 
+
+},{"./panelHeader":445,"react":426}],445:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var PanelHeader = React.createClass({displayName: "PanelHeader",
+	propTypes: {
+		title: React.PropTypes.string.isRequired,
+		borderColor: React.PropTypes.string.isRequired,
+		height: React.PropTypes.number.isRequired
+	},
+
+	getDefaultProps: function () {
+		return {
+			backgroundColor: "#aeb0b5",
+			borderBottomWidth: "thin",
+			marginTop: "0px",
+			marginLeft: "0px",
+			borderRadius: "4px",
+			borderStyle: "outset", 
+			pMarginLeft: "10px"
+		};
+	},
+
+	getStyles: function () {
+		var styles = { backgroundColor: this.props.backgroundColor, 
+						height: this.props.height, 
+						lineHeight: this.props.height,
+						borderBottomWidth: this.props.borderBottomWidth,
+						borderBottomColor: this.props.borderColor,
+						borderBottomStyle: this.props.borderStyle,
+						marginTop: this.props.marginTop,
+						marginLeft: this.props.marginLeft,
+						borderTopLeftRadius: this.props.borderRadius,
+						borderTopRightRadius: this.props.borderRadius
+					};
+		return styles; 
+	},
+
+	render: function () {
+		return (
+				React.createElement("div", {style: this.getStyles()}, 
+					React.createElement("p", {style: {marginLeft: this.props.pMarginLeft}}, this.props.title)
+				)
+			);
+	}
+});
+
+module.exports = PanelHeader;
+
+},{"react":426}],446:[function(require,module,exports){
 /*
  *
  * This code was modified from the example found at http://bl.ocks.org/kerryrodden/7090426
@@ -75922,25 +76016,6 @@ var Path = React.createClass({displayName: "Path",
       };
     },
 
-    // getInitialState: function () {
-    //   return {
-    //     fillOpacity: 1,
-    //     highlightedNodes: []
-    //   };
-    // },
-
-    // componentWillMount: function () {
-    //   CircleChartStore.addChangeListener(this._onChange);
-    // },
-
-    // componentWillUnmount: function () {
-    //   CircleChartStore.removeChangeListener(this._onChange); 
-    // },
-
-    // _onChange: function () {
-    //   this.setState({ highlightedNodes: CircleChartStore.getHighlightedNodes() }); 
-    // },
-
     // Given a node in a partition layout, return an array of all of its ancestor
     // nodes, highest first, but excluding the root.
     getAncestors: function (node) {
@@ -75983,9 +76058,6 @@ var Path = React.createClass({displayName: "Path",
         display: node.depth ? null : "none", 
         d: this.props.arc(node), 
         "fill-rule": "evenodd",
-        name: "sampleName!",
-        children: ['a', 'b', 'c'],
-        size: 101,
         stroke: "#fff",
         fillOpacity: vm.props.highlightedNodes.indexOf(node) >= 0 ? 1 : vm.props.fillOpacity,
         fill: node.name !== "root" ? DashboardApi.calculateColor(node.name) : "#ffffff",
@@ -75993,15 +76065,15 @@ var Path = React.createClass({displayName: "Path",
         onMouseOver: (function (selectedNode) {return function () { vm.setHighlightedNodes(selectedNode); }; })(node)
       };
       return (
-        React.createElement("path", React.__spread({},  props, {"fill-rule": "evenodd"}))
+        React.createElement("path", React.__spread({},  props))
       );
     }
 });
 
 module.exports = Path;
 
-},{"../../actions/sunburstActions":430,"../../api/dashboardApi":433,"../../stores/sunburstStore":453,"d3":220,"lodash":225,"node-uuid":226,"react":426}],445:[function(require,module,exports){
-"use strict"; 
+},{"../../actions/sunburstActions":430,"../../api/dashboardApi":433,"../../stores/sunburstStore":455,"d3":220,"lodash":225,"node-uuid":226,"react":426}],447:[function(require,module,exports){
+"use strict";
 
 var React = require('react'); 
 var SunburstStore = require('../../stores/sunburstStore');
@@ -76064,18 +76136,18 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
     }
     return (
         React.createElement("div", null, 
-         React.createElement("svg", {width: this.props.width, height: this.props.height, style: {float: "left"}}, 
-              React.createElement(Path, {height: this.props.height, 
-                    width: this.props.width, 
-                    radius: this.props.radius, 
-                    arcData: this.state.arcData, 
-                    highlightedNodes: this.state.highlightedNodes, 
-                    fillOpacity: this.state.fillOpacity})
-          ), 
-          React.createElement(Info, {marginLeft: this.props.width, 
-                agencyName: this.state.agencyName, 
-                riskScore: this.state.riskScore, 
-                highlightedNodes: this.state.highlightedNodes})
+           React.createElement("svg", {width: this.props.width, height: this.props.height, style: {float: "left"}}, 
+                React.createElement(Path, {height: this.props.height, 
+                      width: this.props.width, 
+                      radius: this.props.radius, 
+                      arcData: this.state.arcData, 
+                      highlightedNodes: this.state.highlightedNodes, 
+                      fillOpacity: this.state.fillOpacity})
+            ), 
+            React.createElement(Info, {marginLeft: this.props.width, 
+                  agencyName: this.state.agencyName, 
+                  riskScore: this.state.riskScore, 
+                  highlightedNodes: this.state.highlightedNodes})
         )
     );
   }
@@ -76083,7 +76155,7 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
 
 module.exports = SunburstChart; 
 
-},{"../../api/dashboardApi":433,"../../stores/sunburstStore":453,"./info":443,"./path":444,"d3":220,"react":426}],446:[function(require,module,exports){
+},{"../../api/dashboardApi":433,"../../stores/sunburstStore":455,"./info":443,"./path":446,"d3":220,"react":426}],448:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76104,7 +76176,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home; 
 
-},{"react":426,"react-router":253}],447:[function(require,module,exports){
+},{"react":426,"react-router":253}],449:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76124,7 +76196,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage; 
 
-},{"react":426,"react-router":253}],448:[function(require,module,exports){
+},{"react":426,"react-router":253}],450:[function(require,module,exports){
 "use strict"; 
 
 module.exports = { 
@@ -76135,7 +76207,7 @@ module.exports = {
 	RESET_CHART: "RESET_CHART"
 };
 
-},{}],449:[function(require,module,exports){
+},{}],451:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -76153,7 +76225,7 @@ var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":221}],450:[function(require,module,exports){
+},{"flux":221}],452:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76168,7 +76240,7 @@ Router.run(routes, function(Handler) {
 	ReactDOM.render(React.createElement(Handler, null), document.getElementById('app')); 
 });
 
-},{"./actions/initializeActions":429,"./routes":451,"react":426,"react-dom":228,"react-router":253}],451:[function(require,module,exports){
+},{"./actions/initializeActions":429,"./routes":453,"react":426,"react-dom":228,"react-router":253}],453:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76196,7 +76268,7 @@ var routes = (
 
 module.exports = routes; 
 
-},{"./components/about/aboutPage":434,"./components/app":435,"./components/authors/authorPage":438,"./components/authors/manageAuthorsPage":439,"./components/dashboard/dashboardPage":442,"./components/homePage":446,"./components/notFoundPage":447,"react":426,"react-router":253}],452:[function(require,module,exports){
+},{"./components/about/aboutPage":434,"./components/app":435,"./components/authors/authorPage":438,"./components/authors/manageAuthorsPage":439,"./components/dashboard/dashboardPage":442,"./components/homePage":448,"./components/notFoundPage":449,"react":426,"react-router":253}],454:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -76254,7 +76326,7 @@ Dispatcher.register(function(action){
 
 module.exports = AuthorStore; 
 
-},{"../constants/actionTypes":448,"../dispatcher/appDispatcher":449,"events":198,"lodash":225,"object-assign":227}],453:[function(require,module,exports){
+},{"../constants/actionTypes":450,"../dispatcher/appDispatcher":451,"events":198,"lodash":225,"object-assign":227}],455:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -76316,4 +76388,4 @@ Dispatcher.register(function(action){
 
 module.exports = SunburstStore; 
 
-},{"../constants/actionTypes":448,"../dispatcher/appDispatcher":449,"events":198,"lodash":225,"object-assign":227}]},{},[450]);
+},{"../constants/actionTypes":450,"../dispatcher/appDispatcher":451,"events":198,"lodash":225,"object-assign":227}]},{},[452]);

@@ -1,14 +1,16 @@
-"use strict"; 
+"use strict";
 
 var React = require('react');
-var Chart = require('./chart');
-var Info = require('./info');
+var PanelHeader = require('./panelHeader');
 
 var Panel = React.createClass({
 	propTypes: {
 		height: React.PropTypes.number.isRequired,
 		width: React.PropTypes.number.isRequired,
-		position: React.PropTypes.string.isRequired
+		borderColor: React.PropTypes.string.isRequired,
+		title: React.PropTypes.string.isRequired,
+		headerHeight: React.PropTypes.number.isRequired
+		// position: React.PropTypes.string.isRequired
 	},
 
 	setPosition: function (position) {
@@ -17,9 +19,8 @@ var Panel = React.createClass({
 
 	render: function () {
 		return (
-				<div className="panel"
-						width={this.props.width}
-						height={this.props.height}>
+				<div className="panel" style={{ display: "block", backgroundColor: "white", height: this.props.height, width: this.props.width * 2, borderColor: this.props.borderColor }}>
+					<PanelHeader borderColor={this.props.borderColor} title={this.props.title} height={this.props.headerHeight.toString() + "px"} />
 					{this.props.children}
 				</div>
 			);
