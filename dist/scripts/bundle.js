@@ -75134,7 +75134,25 @@ var AuthorActions = {
 
 module.exports = AuthorActions; 
 
-},{"../api/authorApi":431,"../constants/actionTypes":450,"../dispatcher/appDispatcher":451}],429:[function(require,module,exports){
+},{"../api/authorApi":432,"../constants/actionTypes":451,"../dispatcher/appDispatcher":452}],429:[function(require,module,exports){
+"use strict"; 
+
+var Dispatcher = require('../dispatcher/appDispatcher'); 
+var ActionTypes = require('../constants/actionTypes'); 
+
+var DashboardActions = {
+
+	togglePanel: function (panelId) {
+		Dispatcher.dispatch({
+			actionType: ActionTypes.TOGGLE_PANEL,
+			panelId: panelId
+		});
+	}
+}; 
+
+module.exports = DashboardActions;
+
+},{"../constants/actionTypes":451,"../dispatcher/appDispatcher":452}],430:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher');
@@ -75154,7 +75172,7 @@ var InitializeActions = {
 
 module.exports = InitializeActions; 
 
-},{"../api/authorApi":431,"../constants/actionTypes":450,"../dispatcher/appDispatcher":451}],430:[function(require,module,exports){
+},{"../api/authorApi":432,"../constants/actionTypes":451,"../dispatcher/appDispatcher":452}],431:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -75181,7 +75199,7 @@ var SunburstActions = {
 
 module.exports = SunburstActions; 
 
-},{"../constants/actionTypes":450,"../dispatcher/appDispatcher":451}],431:[function(require,module,exports){
+},{"../constants/actionTypes":451,"../dispatcher/appDispatcher":452}],432:[function(require,module,exports){
 "use strict";
 
 //This file is mocking a web API by hitting hard coded data.
@@ -75233,7 +75251,7 @@ var AuthorApi = {
 
 module.exports = AuthorApi;
 
-},{"./authorData":432,"lodash":225}],432:[function(require,module,exports){
+},{"./authorData":433,"lodash":225}],433:[function(require,module,exports){
 module.exports = {
 	authors: 
 	[
@@ -75255,7 +75273,7 @@ module.exports = {
 	]
 };
 
-},{}],433:[function(require,module,exports){
+},{}],434:[function(require,module,exports){
 /*
  *
  * This code was modified from the example found at http://bl.ocks.org/kerryrodden/7090426
@@ -75419,7 +75437,7 @@ var DashboardApi = {
 
 module.exports = DashboardApi;
 
-},{"d3":220}],434:[function(require,module,exports){
+},{"d3":220}],435:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75458,7 +75476,7 @@ var About = React.createClass({displayName: "About",
 
 module.exports = About; 
 
-},{"react":426}],435:[function(require,module,exports){
+},{"react":426}],436:[function(require,module,exports){
 /*eslint-disable strict */
 
 var React = require('react'); 
@@ -75483,7 +75501,7 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App; 
 
-},{"./common/header":440,"jquery":224,"react":426,"react-router":253}],436:[function(require,module,exports){
+},{"./common/header":441,"jquery":224,"react":426,"react-router":253}],437:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75526,7 +75544,7 @@ var AuthorForm = React.createClass({displayName: "AuthorForm",
 
 module.exports = AuthorForm; 
 
-},{"../common/textInput":441,"react":426}],437:[function(require,module,exports){
+},{"../common/textInput":442,"react":426}],438:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75566,7 +75584,7 @@ var AuthorList = React.createClass({displayName: "AuthorList",
 
 module.exports = AuthorList; 
 
-},{"react":426,"react-router":253}],438:[function(require,module,exports){
+},{"react":426,"react-router":253}],439:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75610,7 +75628,7 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
 
 module.exports = AuthorPage; 
 
-},{"../../actions/authorActions":428,"../../stores/authorStore":454,"./authorList":437,"react":426,"react-router":253}],439:[function(require,module,exports){
+},{"../../actions/authorActions":428,"../../stores/authorStore":455,"./authorList":438,"react":426,"react-router":253}],440:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75707,7 +75725,7 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
 
 module.exports = ManageAuthorPage; 
 
-},{"../../actions/authorActions":428,"../../stores/authorStore":454,"./authorForm":436,"react":426,"react-router":253,"toastr":427}],440:[function(require,module,exports){
+},{"../../actions/authorActions":428,"../../stores/authorStore":455,"./authorForm":437,"react":426,"react-router":253,"toastr":427}],441:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75720,7 +75738,7 @@ var Header = React.createClass({displayName: "Header",
 				React.createElement("nav", {className: "nav dashHeader"}, 
 					React.createElement("div", {className: "container-fluid"}, 
 						React.createElement("ul", {className: "nav navbar-nav"}, 
-							React.createElement("li", null, React.createElement(Link, {to: "app"}, "ReactD3")), 
+							React.createElement("li", null, React.createElement(Link, {to: "app"}, "CyberReact")), 
 							React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
 							React.createElement("li", null, React.createElement(Link, {to: "about"}, "About")), 
 							React.createElement("li", null, React.createElement(Link, {to: "dashboard"}, "Dashboard"))
@@ -75733,7 +75751,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header; 
 
-},{"react":426,"react-router":253}],441:[function(require,module,exports){
+},{"react":426,"react-router":253}],442:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75774,7 +75792,7 @@ var TextInput = React.createClass({displayName: "TextInput",
 
 module.exports = TextInput; 
 
-},{"react":426}],442:[function(require,module,exports){
+},{"react":426}],443:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -75800,7 +75818,11 @@ var isThumbnail = {
 var thumbWidth = 350;
 var thumbHeight = 200;
 var thumbRadius = Math.min(thumbWidth, thumbHeight) / 2;
-var sunburst = "sunburst";
+var sunburstId = "sunburstCDM";
+var barId = "bar1";
+var scatterId = "scatter1";
+var tableId = "tableId";
+
 
 
 var Dashboard = React.createClass({displayName: "Dashboard",
@@ -75890,7 +75912,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;         
 
-},{"./panel":444,"./sunburstChart":447,"react":426,"react-router":253}],443:[function(require,module,exports){
+},{"./panel":445,"./sunburstChart":448,"react":426,"react-router":253}],444:[function(require,module,exports){
 "use strict";
 
 var React = require('react'); 
@@ -75947,7 +75969,7 @@ var Info = React.createClass({displayName: "Info",
 
 module.exports = Info; 
 
-},{"../../stores/sunburstStore":455,"react":426}],444:[function(require,module,exports){
+},{"../../stores/sunburstStore":456,"react":426}],445:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -75979,16 +76001,18 @@ var Panel = React.createClass({displayName: "Panel",
 
 module.exports = Panel; 
 
-},{"./panelHeader":445,"react":426}],445:[function(require,module,exports){
+},{"./panelHeader":446,"react":426}],446:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
+var DashboardActions = require('../../actions/dashboardActions');
 
 var PanelHeader = React.createClass({displayName: "PanelHeader",
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		borderColor: React.PropTypes.string.isRequired,
-		height: React.PropTypes.string.isRequired
+		height: React.PropTypes.string.isRequired,
+		panelId: React.PropTypes.string.isRequired
 	},
 
 	getDefaultProps: function () {
@@ -76018,9 +76042,13 @@ var PanelHeader = React.createClass({displayName: "PanelHeader",
 		return styles; 
 	},
 
+	togglePanel: function () {
+		DashboardActions.togglePanel(this.props.panelId);
+	},
+
 	render: function () {
 		return (
-				React.createElement("div", {style: this.getStyles()}, 
+				React.createElement("div", {onClick: this.togglePanel(), style: this.getStyles()}, 
 					React.createElement("p", {style: {marginLeft: this.props.pMarginLeft, color: this.props.borderColor}}, this.props.title)
 				)
 			);
@@ -76029,7 +76057,7 @@ var PanelHeader = React.createClass({displayName: "PanelHeader",
 
 module.exports = PanelHeader;
 
-},{"react":426}],446:[function(require,module,exports){
+},{"../../actions/dashboardActions":429,"react":426}],447:[function(require,module,exports){
 /*
  *
  * This code was modified from the example found at http://bl.ocks.org/kerryrodden/7090426
@@ -76137,7 +76165,7 @@ var Path = React.createClass({displayName: "Path",
 
 module.exports = Path;
 
-},{"../../actions/sunburstActions":430,"../../api/dashboardApi":433,"../../stores/sunburstStore":455,"d3":220,"lodash":225,"node-uuid":226,"react":426}],447:[function(require,module,exports){
+},{"../../actions/sunburstActions":431,"../../api/dashboardApi":434,"../../stores/sunburstStore":456,"d3":220,"lodash":225,"node-uuid":226,"react":426}],448:[function(require,module,exports){
 "use strict";
 
 var React = require('react'); 
@@ -76221,7 +76249,7 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
 
 module.exports = SunburstChart; 
 
-},{"../../api/dashboardApi":433,"../../stores/sunburstStore":455,"./info":443,"./path":446,"d3":220,"react":426}],448:[function(require,module,exports){
+},{"../../api/dashboardApi":434,"../../stores/sunburstStore":456,"./info":444,"./path":447,"d3":220,"react":426}],449:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76242,7 +76270,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home; 
 
-},{"react":426,"react-router":253}],449:[function(require,module,exports){
+},{"react":426,"react-router":253}],450:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76262,7 +76290,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage; 
 
-},{"react":426,"react-router":253}],450:[function(require,module,exports){
+},{"react":426,"react-router":253}],451:[function(require,module,exports){
 "use strict"; 
 
 module.exports = { 
@@ -76270,10 +76298,11 @@ module.exports = {
 	CREATE_AUTHOR: "CREATE_AUTHOR", 
 	UPDATE_AUTHOR: "UPDATE_AUTHOR",
 	UPDATE_NODES: "UPDATE_NODES",
-	RESET_CHART: "RESET_CHART"
+	RESET_CHART: "RESET_CHART", 
+	TOGGLE_PANEL: "TOGGLE_PANEL"
 };
 
-},{}],451:[function(require,module,exports){
+},{}],452:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -76291,7 +76320,7 @@ var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":221}],452:[function(require,module,exports){
+},{"flux":221}],453:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76306,7 +76335,7 @@ Router.run(routes, function(Handler) {
 	ReactDOM.render(React.createElement(Handler, null), document.getElementById('app')); 
 });
 
-},{"./actions/initializeActions":429,"./routes":453,"react":426,"react-dom":228,"react-router":253}],453:[function(require,module,exports){
+},{"./actions/initializeActions":430,"./routes":454,"react":426,"react-dom":228,"react-router":253}],454:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76334,7 +76363,7 @@ var routes = (
 
 module.exports = routes; 
 
-},{"./components/about/aboutPage":434,"./components/app":435,"./components/authors/authorPage":438,"./components/authors/manageAuthorsPage":439,"./components/dashboard/dashboardPage":442,"./components/homePage":448,"./components/notFoundPage":449,"react":426,"react-router":253}],454:[function(require,module,exports){
+},{"./components/about/aboutPage":435,"./components/app":436,"./components/authors/authorPage":439,"./components/authors/manageAuthorsPage":440,"./components/dashboard/dashboardPage":443,"./components/homePage":449,"./components/notFoundPage":450,"react":426,"react-router":253}],455:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -76392,7 +76421,7 @@ Dispatcher.register(function(action){
 
 module.exports = AuthorStore; 
 
-},{"../constants/actionTypes":450,"../dispatcher/appDispatcher":451,"events":198,"lodash":225,"object-assign":227}],455:[function(require,module,exports){
+},{"../constants/actionTypes":451,"../dispatcher/appDispatcher":452,"events":198,"lodash":225,"object-assign":227}],456:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -76454,4 +76483,4 @@ Dispatcher.register(function(action){
 
 module.exports = SunburstStore; 
 
-},{"../constants/actionTypes":450,"../dispatcher/appDispatcher":451,"events":198,"lodash":225,"object-assign":227}]},{},[452]);
+},{"../constants/actionTypes":451,"../dispatcher/appDispatcher":452,"events":198,"lodash":225,"object-assign":227}]},{},[453]);

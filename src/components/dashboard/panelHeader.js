@@ -1,12 +1,14 @@
 "use strict";
 
 var React = require('react');
+var DashboardActions = require('../../actions/dashboardActions');
 
 var PanelHeader = React.createClass({
 	propTypes: {
 		title: React.PropTypes.string.isRequired,
 		borderColor: React.PropTypes.string.isRequired,
-		height: React.PropTypes.string.isRequired
+		height: React.PropTypes.string.isRequired,
+		panelId: React.PropTypes.string.isRequired
 	},
 
 	getDefaultProps: function () {
@@ -36,9 +38,13 @@ var PanelHeader = React.createClass({
 		return styles; 
 	},
 
+	togglePanel: function () {
+		DashboardActions.togglePanel(this.props.panelId);
+	},
+
 	render: function () {
 		return (
-				<div style={this.getStyles()}>
+				<div onClick={this.togglePanel()} style={this.getStyles()}>
 					<p style={{marginLeft: this.props.pMarginLeft, color: this.props.borderColor}}>{this.props.title}</p>
 				</div>
 			);

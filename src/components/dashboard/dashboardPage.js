@@ -23,7 +23,11 @@ var isThumbnail = {
 var thumbWidth = 350;
 var thumbHeight = 200;
 var thumbRadius = Math.min(thumbWidth, thumbHeight) / 2;
-var sunburst = "sunburst";
+var sunburstId = "sunburstCDM";
+var barId = "bar1";
+var scatterId = "scatter1";
+var tableId = "tableId";
+
 
 
 var Dashboard = React.createClass({
