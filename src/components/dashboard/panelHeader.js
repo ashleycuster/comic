@@ -38,13 +38,13 @@ var PanelHeader = React.createClass({
 		return styles; 
 	},
 
-	togglePanel: function () {
+	togglePanel: function (event) {
 		DashboardActions.togglePanel(this.props.panelId);
 	},
 
 	render: function () {
 		return (
-				<div onClick={this.togglePanel()} style={this.getStyles()}>
+				<div onClick={this.togglePanel} style={this.getStyles()}>
 					<p style={{marginLeft: this.props.pMarginLeft, color: this.props.borderColor}}>{this.props.title}</p>
 				</div>
 			);

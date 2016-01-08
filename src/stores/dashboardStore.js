@@ -9,10 +9,10 @@ var CHANGE_EVENT = 'change';
 
 
 var _isThumbnail = {
-	"sunburstCDM": false,
-	"bar1": false,
-	"scatter1": false,
-	"table1": false
+	"sunburstCDM": true,
+	"bar1": true,
+	"scatter1": true,
+	"table1": true
 };
 
 var DashboardStore = assign({}, EventEmitter.prototype, {
@@ -28,8 +28,8 @@ var DashboardStore = assign({}, EventEmitter.prototype, {
 		this.emit(CHANGE_EVENT); 
 	}, 
 
-	getIsThumbnail: function (panelId) {
-		return _isThumbnail[panelId];
+	getIsThumbnail: function () {
+		return _isThumbnail;
 	}
 });
 

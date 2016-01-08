@@ -75793,14 +75793,15 @@ var TextInput = React.createClass({displayName: "TextInput",
 module.exports = TextInput; 
 
 },{"react":426}],443:[function(require,module,exports){
-"use strict"; 
+"use strict";
 
 var React = require('react'); 
 var Router = require('react-router'); 
 var Panel = require('./panel');
 var SunburstChart = require('./sunburstChart'); 
+var DashboardStore = require('../../stores/dashboardStore');
 
-var width = 550; 
+var width = 550;
 var height = 400; 
 var radius = Math.min(width, height) / 2;
 var panelBorderColor = "#aeb0b5";
@@ -75809,19 +75810,13 @@ var barTitle = "Sample bar chart";
 var scatterTitle = "Sample scatter plot";
 var tableTitle = "Sample table";
 var panelHeaderHeight = 30;
-var isThumbnail = {
-	"sunburst": true,
-	"bar": true,
-	"scatter": true,
-	"table": true
-};
 var thumbWidth = 350;
 var thumbHeight = 200;
 var thumbRadius = Math.min(thumbWidth, thumbHeight) / 2;
 var sunburstId = "sunburstCDM";
 var barId = "bar1";
 var scatterId = "scatter1";
-var tableId = "tableId";
+var tableId = "table1";
 
 
 
@@ -75850,9 +75845,23 @@ var Dashboard = React.createClass({displayName: "Dashboard",
     },
 
 	getInitialState: function () {
+		var isThumbnail = DashboardStore.getIsThumbnail();
 		return {
 			isThumbnail: isThumbnail
 		};
+	},
+
+	componentWillMount: function () {
+		DashboardStore.addChangeListener(this._onChange);
+	},
+
+	componentWillUnmount: function () {
+		DashboardStore.removeChangeListener(this._onChange); 
+	},
+
+	_onChange: function () {
+		var isThumbnail = DashboardStore.getIsThumbnail();
+		this.setState({isThumbnail: isThumbnail});
 	},
 
 	getPanelWidth: function (panelName) {
@@ -75874,35 +75883,39 @@ var Dashboard = React.createClass({displayName: "Dashboard",
     render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement(Panel, {width: this.getPanelWidth("sunburst"), 
-					height: this.getHeight("sunburst") + this.props.panelHeaderHeight * 2 + 5, 
+				React.createElement(Panel, {width: this.getPanelWidth("sunburstCDM"), 
+					height: this.getHeight("sunburstCDM") + this.props.panelHeaderHeight * 2 + 5, 
 					borderColor: this.props.panelBorderColor, 
 					title: this.props.cdmTitle, 
-					headerHeight: this.props.panelHeaderHeight}, 
-					React.createElement(SunburstChart, {width: this.getWidth("sunburst"), 
-						height: this.getHeight("sunburst"), 
-						radius: this.getRadius("sunburst"), 
-						hideInfo: this.state.isThumbnail.sunburst})
+					headerHeight: this.props.panelHeaderHeight, 
+					panelId: "sunburstCDM"}, 
+					React.createElement(SunburstChart, {width: this.getWidth("sunburstCDM"), 
+						height: this.getHeight("sunburstCDM"), 
+						radius: this.getRadius("sunburstCDM"), 
+						hideInfo: this.state.isThumbnail["sunburstCDM"]})
 				), 
-				React.createElement(Panel, {width: this.getPanelWidth("bar"), 
-					height: this.getHeight("bar") + this.props.panelHeaderHeight * 2 + 5, 
+				React.createElement(Panel, {width: this.getPanelWidth("bar1"), 
+					height: this.getHeight("bar1") + this.props.panelHeaderHeight * 2 + 5, 
 					borderColor: this.props.panelBorderColor, 
 					title: this.props.barTitle, 
-					headerHeight: this.props.panelHeaderHeight}, 
+					headerHeight: this.props.panelHeaderHeight, 
+					panelId: "bar1"}, 
 					React.createElement("p", null, "placeholder")
 				), 
-				React.createElement(Panel, {width: this.getPanelWidth("scatter"), 
-					height: this.getHeight("scatter") + this.props.panelHeaderHeight * 2 + 5, 
+				React.createElement(Panel, {width: this.getPanelWidth("scatter1"), 
+					height: this.getHeight("scatter1") + this.props.panelHeaderHeight * 2 + 5, 
 					borderColor: this.props.panelBorderColor, 
 					title: this.props.scatterTitle, 
-					headerHeight: this.props.panelHeaderHeight}, 
+					headerHeight: this.props.panelHeaderHeight, 
+					panelId: "scatter1"}, 
 					React.createElement("p", null, "placeholder")
 				), 
-				React.createElement(Panel, {width: this.getPanelWidth("table"), 
-					height: this.getHeight("table") + this.props.panelHeaderHeight * 2 + 5, 
+				React.createElement(Panel, {width: this.getPanelWidth("table1"), 
+					height: this.getHeight("table1") + this.props.panelHeaderHeight * 2 + 5, 
 					borderColor: this.props.panelBorderColor, 
 					title: this.props.tableTitle, 
-					headerHeight: this.props.panelHeaderHeight}, 
+					headerHeight: this.props.panelHeaderHeight, 
+					panelId: "table1"}, 
 					React.createElement("p", null, "placeholder")
 				)
 			)
@@ -75912,7 +75925,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;         
 
-},{"./panel":445,"./sunburstChart":448,"react":426,"react-router":253}],444:[function(require,module,exports){
+},{"../../stores/dashboardStore":456,"./panel":445,"./sunburstChart":448,"react":426,"react-router":253}],444:[function(require,module,exports){
 "use strict";
 
 var React = require('react'); 
@@ -75969,7 +75982,7 @@ var Info = React.createClass({displayName: "Info",
 
 module.exports = Info; 
 
-},{"../../stores/sunburstStore":456,"react":426}],445:[function(require,module,exports){
+},{"../../stores/sunburstStore":457,"react":426}],445:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -75981,7 +75994,8 @@ var Panel = React.createClass({displayName: "Panel",
 		width: React.PropTypes.number.isRequired,
 		borderColor: React.PropTypes.string.isRequired,
 		title: React.PropTypes.string.isRequired,
-		headerHeight: React.PropTypes.number.isRequired
+		headerHeight: React.PropTypes.number.isRequired,
+		panelId: React.PropTypes.string.isRequired
 		// position: React.PropTypes.string.isRequired
 	},
 
@@ -75992,7 +76006,10 @@ var Panel = React.createClass({displayName: "Panel",
 	render: function () {
 		return (
 				React.createElement("div", {className: "panel", style: { display: "block", backgroundColor: "white", height: this.props.height, width: this.props.width, borderColor: this.props.borderColor}}, 
-					React.createElement(PanelHeader, {borderColor: this.props.borderColor, title: this.props.title, height: this.props.headerHeight.toString() + "px"}), 
+					React.createElement(PanelHeader, {borderColor: this.props.borderColor, 
+								title: this.props.title, 
+								height: this.props.headerHeight.toString() + "px", 
+								panelId: this.props.panelId}), 
 					this.props.children
 				)
 			);
@@ -76042,13 +76059,13 @@ var PanelHeader = React.createClass({displayName: "PanelHeader",
 		return styles; 
 	},
 
-	togglePanel: function () {
+	togglePanel: function (event) {
 		DashboardActions.togglePanel(this.props.panelId);
 	},
 
 	render: function () {
 		return (
-				React.createElement("div", {onClick: this.togglePanel(), style: this.getStyles()}, 
+				React.createElement("div", {onClick: this.togglePanel, style: this.getStyles()}, 
 					React.createElement("p", {style: {marginLeft: this.props.pMarginLeft, color: this.props.borderColor}}, this.props.title)
 				)
 			);
@@ -76165,7 +76182,7 @@ var Path = React.createClass({displayName: "Path",
 
 module.exports = Path;
 
-},{"../../actions/sunburstActions":431,"../../api/dashboardApi":434,"../../stores/sunburstStore":456,"d3":220,"lodash":225,"node-uuid":226,"react":426}],448:[function(require,module,exports){
+},{"../../actions/sunburstActions":431,"../../api/dashboardApi":434,"../../stores/sunburstStore":457,"d3":220,"lodash":225,"node-uuid":226,"react":426}],448:[function(require,module,exports){
 "use strict";
 
 var React = require('react'); 
@@ -76249,7 +76266,7 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
 
 module.exports = SunburstChart; 
 
-},{"../../api/dashboardApi":434,"../../stores/sunburstStore":456,"./info":444,"./path":447,"d3":220,"react":426}],449:[function(require,module,exports){
+},{"../../api/dashboardApi":434,"../../stores/sunburstStore":457,"./info":444,"./path":447,"d3":220,"react":426}],449:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -76422,6 +76439,56 @@ Dispatcher.register(function(action){
 module.exports = AuthorStore; 
 
 },{"../constants/actionTypes":451,"../dispatcher/appDispatcher":452,"events":198,"lodash":225,"object-assign":227}],456:[function(require,module,exports){
+"use strict"; 
+
+var Dispatcher = require('../dispatcher/appDispatcher'); 
+var ActionTypes = require('../constants/actionTypes');
+var EventEmitter = require('events').EventEmitter; 
+var assign = require('object-assign'); 
+var _ = require('lodash');
+var CHANGE_EVENT = 'change'; 
+
+
+var _isThumbnail = {
+	"sunburstCDM": true,
+	"bar1": true,
+	"scatter1": true,
+	"table1": true
+};
+
+var DashboardStore = assign({}, EventEmitter.prototype, {
+	addChangeListener: function (callback) {
+		this.on(CHANGE_EVENT, callback); 
+	},
+
+	removeChangeListener: function (callback) {
+		this.removeListener(CHANGE_EVENT, callback);
+	},
+
+	emitChange: function () {
+		this.emit(CHANGE_EVENT); 
+	}, 
+
+	getIsThumbnail: function () {
+		return _isThumbnail;
+	}
+});
+
+Dispatcher.register(function(action){
+	switch(action.actionType) { 
+		case ActionTypes.TOGGLE_PANEL:
+			var id = action.panelId;
+			_isThumbnail[id] = !_isThumbnail[id];
+			DashboardStore.emitChange();
+			break;
+		default: 
+			// no op
+	}
+});
+
+module.exports = DashboardStore; 
+
+},{"../constants/actionTypes":451,"../dispatcher/appDispatcher":452,"events":198,"lodash":225,"object-assign":227}],457:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
