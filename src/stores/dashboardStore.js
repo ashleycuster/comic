@@ -7,13 +7,14 @@ var assign = require('object-assign');
 var _ = require('lodash');
 var CHANGE_EVENT = 'change'; 
 
-
-var _isThumbnail = {
-	"sunburstCDM": true,
-	"bar1": true,
-	"scatter1": true,
-	"table1": true
+var _didSunburstChange = false;
+var _panelSize = {
+	"sunburstCDM": "thumb",
+	"bar1": "thumb",
+	"scatter1": "thumb",
+	"table1": "thumb"
 };
+
 
 var DashboardStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -29,7 +30,11 @@ var DashboardStore = assign({}, EventEmitter.prototype, {
 	}, 
 
 	getIsThumbnail: function () {
-		return _isThumbnail;
+		return _panelSize;
+	},
+
+	didSunburstChange: function () {
+		return _didSunburstChange;
 	}
 });
 
@@ -37,7 +42,8 @@ Dispatcher.register(function(action){
 	switch(action.actionType) { 
 		case ActionTypes.TOGGLE_PANEL:
 			var id = action.panelId;
-			_isThumbnail[id] = !_isThumbnail[id];
+			_panelSize[id] = _panelSize[id] === "thumb" ? "full" : "thumb";
+			_didSunburstChange = id === "sunburstCDM";
 			DashboardStore.emitChange();
 			break;
 		default: 

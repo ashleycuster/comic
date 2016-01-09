@@ -12,7 +12,8 @@ var SunburstChart = React.createClass({
   propTypes: {
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired,
-    radius: React.PropTypes.number.isRequired
+    radius: React.PropTypes.number.isRequired,
+    arcData: React.PropTypes.object.isRequired
   },
 
   getInitialState: function () {
@@ -20,22 +21,12 @@ var SunburstChart = React.createClass({
       agencyName: "Agency Name",
       riskScore: "",
       highlightedNodes: [],
-      arcData: {},
       fillOpacity: 1
     };
   },
 
   componentWillMount: function () {
     SunburstStore.addChangeListener(this._onChange);
-
-    var vm = this;
-
-    DashboardApi.getData(vm.props.radius, function (newArcData) {
-      var setArcData = {json: {}, array: []};
-      setArcData.json = newArcData.json; 
-      setArcData.array = newArcData.array;
-      vm.setState({arcData: setArcData});
-    });
   },
 
   componentWillUnmount: function () {
@@ -56,7 +47,7 @@ var SunburstChart = React.createClass({
   },
 
   render: function() {
-    if (this.state.arcData.array === undefined) {
+    if (this.props.arcData.array === undefined) {
       return (<div />);
     }
     return (
@@ -65,7 +56,7 @@ var SunburstChart = React.createClass({
                 <Path height={this.props.height}
                       width={this.props.width}
                       radius={this.props.radius}
-                      arcData={this.state.arcData}
+                      arcData={this.props.arcData}
                       highlightedNodes={this.state.highlightedNodes}
                       fillOpacity={this.state.fillOpacity} />
             </svg>

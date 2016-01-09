@@ -282,7 +282,7 @@ button.toast-close-button {
 
 
 body {
-	background-color: #d6d7d9;
+	background-color: #f1f1f1;
 	font-family: 'Source Sans Pro', 'Merriweather';
 }
 
@@ -291,8 +291,8 @@ body {
 }
 
 .dashHeader {
-	background-color: #205493;
-	/*font-family: 'Merriweather';*/
+	background-color: #323a45;
+	font-family: 'Merriweather';
 	width: 100%;
 	position: fixed;
 	top: 0px;

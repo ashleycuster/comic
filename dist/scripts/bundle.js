@@ -75800,23 +75800,61 @@ var Router = require('react-router');
 var Panel = require('./panel');
 var SunburstChart = require('./sunburstChart'); 
 var DashboardStore = require('../../stores/dashboardStore');
+var DashboardApi = require('../../api/dashboardApi');
 
 var width = 550;
 var height = 400; 
 var radius = Math.min(width, height) / 2;
-var panelBorderColor = "#aeb0b5";
-var cdmTitle = "Risk Evaluation of CDM Agencies";
-var barTitle = "Sample bar chart";
-var scatterTitle = "Sample scatter plot";
-var tableTitle = "Sample table";
-var panelHeaderHeight = 30;
+
 var thumbWidth = 350;
 var thumbHeight = 200;
 var thumbRadius = Math.min(thumbWidth, thumbHeight) / 2;
-var sunburstId = "sunburstCDM";
-var barId = "bar1";
-var scatterId = "scatter1";
-var tableId = "table1";
+
+var panelStats = {
+	borderColor: "#aeb0b5",
+	headerHeight: 30
+};
+
+var chartStats = {
+	"height": {
+		"thumb": thumbHeight,
+		"full": height
+	},
+	"width": {
+		"thumb": thumbWidth,
+		"full": width
+	},
+	"radius": {
+		"thumb": thumbRadius,
+		"full": radius
+	},
+	"panelWidth": {
+		"thumb": thumbWidth,
+		"full": width * 2
+	},
+	"panelHeight": {
+		"thumb": thumbHeight + 2 * panelStats.headerHeight + 5,
+		"full": height + 2 * panelStats.headerHeight + 5
+	}
+};
+
+var sunburstCDM = {
+	id: 'sunburstCDM',
+	title: 'Risk Evaluation of CDM Agencies'
+};
+var bar1 = {
+	id: "bar1",
+	title: "sample bar chart"
+};
+var scatter1 = {
+	id: "scatter1",
+	title: "sample scatter plot"
+};
+var table1 = {
+	id: "table1",
+	title: "sample table"
+};
+
 
 
 
@@ -75829,30 +75867,26 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 	getDefaultProps: function() {
         return {
-          width: width,
-          height: height,
-          radius: radius,
-          thumbHeight: thumbHeight,
-          thumbWidth: thumbWidth,
-          thumbRadius: thumbRadius,
-          panelBorderColor: panelBorderColor,
-          cdmTitle: cdmTitle,
-          barTitle: barTitle,
-          scatterTitle: scatterTitle,
-          tableTitle: tableTitle,
-          panelHeaderHeight: panelHeaderHeight
+          chartStats: chartStats,
+          panelStats: panelStats,
+          sunburstCDM: sunburstCDM,
+          bar1: bar1,
+          scatter1: scatter1,
+          table1: table1
         };
     },
 
 	getInitialState: function () {
-		var isThumbnail = DashboardStore.getIsThumbnail();
+		var panelSize = DashboardStore.getIsThumbnail();
 		return {
-			isThumbnail: isThumbnail
+			panelSize: panelSize,
+			arcData: {}
 		};
 	},
 
 	componentWillMount: function () {
 		DashboardStore.addChangeListener(this._onChange);
+		this.setArcData(this.state.panelSize);
 	},
 
 	componentWillUnmount: function () {
@@ -75860,62 +75894,71 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 	},
 
 	_onChange: function () {
-		var isThumbnail = DashboardStore.getIsThumbnail();
-		this.setState({isThumbnail: isThumbnail});
+		var panelSize = DashboardStore.getIsThumbnail();
+		if (DashboardStore.didSunburstChange()) {
+			this.setArcData(panelSize);
+		}
+		this.setState({panelSize: panelSize});
 	},
 
-	getPanelWidth: function (panelName) {
-		return this.state.isThumbnail[panelName] ? this.props.thumbWidth : this.props.width * 2;
+	setArcData: function (panelSize) {
+		var radiusStr = "radius";
+		var sunburstSize = panelSize[this.props.sunburstCDM.id];
+		var arcRadius = this.props.chartStats[radiusStr][sunburstSize];
+
+		var vm = this;
+
+		DashboardApi.getData(arcRadius, function (newArcData) {
+			var setArcData = {json: {}, array: []};
+			setArcData.json = newArcData.json; 
+			setArcData.array = newArcData.array;
+			vm.setState({arcData: setArcData});
+		});
 	},
 
-	getWidth: function (panelName) {
-		return this.state.isThumbnail[panelName] ? this.props.thumbWidth : this.props.width;
-	},
-
-	getHeight: function (panelName) {
-		return this.state.isThumbnail[panelName] ? this.props.thumbHeight : this.props.height;
-	},
-
-	getRadius: function (panelName) {
-		return this.state.isThumbnail[panelName] ? this.props.thumbRadius : this.props.radius;
+	getDimension: function (panelId, dimension) {
+		var size = this.state.panelSize[panelId];
+		var value = chartStats[dimension][size];
+		return value;
 	},
 
     render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement(Panel, {width: this.getPanelWidth("sunburstCDM"), 
-					height: this.getHeight("sunburstCDM") + this.props.panelHeaderHeight * 2 + 5, 
-					borderColor: this.props.panelBorderColor, 
-					title: this.props.cdmTitle, 
-					headerHeight: this.props.panelHeaderHeight, 
-					panelId: "sunburstCDM"}, 
-					React.createElement(SunburstChart, {width: this.getWidth("sunburstCDM"), 
-						height: this.getHeight("sunburstCDM"), 
-						radius: this.getRadius("sunburstCDM"), 
-						hideInfo: this.state.isThumbnail["sunburstCDM"]})
+				React.createElement(Panel, {width: this.getDimension(this.props.sunburstCDM.id, "panelWidth"), 
+					height: this.getDimension(this.props.sunburstCDM.id, "panelHeight"), 
+					borderColor: this.props.panelStats.borderColor, 
+					title: this.props.sunburstCDM.title, 
+					headerHeight: this.props.panelStats.headerHeight, 
+					panelId: this.props.sunburstCDM.id}, 
+					React.createElement(SunburstChart, {width: this.getDimension(this.props.sunburstCDM.id, "width"), 
+						height: this.getDimension(this.props.sunburstCDM.id, "height"), 
+						radius: this.getDimension(this.props.sunburstCDM.id, "radius"), 
+						arcData: this.state.arcData, 
+						hideInfo: this.state.panelSize[this.props.sunburstCDM.id] === "thumb" ? true : false})
 				), 
-				React.createElement(Panel, {width: this.getPanelWidth("bar1"), 
-					height: this.getHeight("bar1") + this.props.panelHeaderHeight * 2 + 5, 
-					borderColor: this.props.panelBorderColor, 
-					title: this.props.barTitle, 
-					headerHeight: this.props.panelHeaderHeight, 
-					panelId: "bar1"}, 
+				React.createElement(Panel, {width: this.getDimension(this.props.bar1.id, "panelWidth"), 
+					height: this.getDimension(this.props.bar1.id, "panelHeight"), 
+					borderColor: this.props.panelStats.borderColor, 
+					title: this.props.bar1.title, 
+					headerHeight: this.props.panelStats.headerHeight, 
+					panelId: this.props.bar1.id}, 
 					React.createElement("p", null, "placeholder")
 				), 
-				React.createElement(Panel, {width: this.getPanelWidth("scatter1"), 
-					height: this.getHeight("scatter1") + this.props.panelHeaderHeight * 2 + 5, 
-					borderColor: this.props.panelBorderColor, 
-					title: this.props.scatterTitle, 
-					headerHeight: this.props.panelHeaderHeight, 
-					panelId: "scatter1"}, 
+				React.createElement(Panel, {width: this.getDimension(this.props.scatter1.id, "panelWidth"), 
+					height: this.getDimension(this.props.scatter1.id, "panelHeight"), 
+					borderColor: this.props.panelStats.borderColor, 
+					title: this.props.scatter1.title, 
+					headerHeight: this.props.panelStats.headerHeight, 
+					panelId: this.props.scatter1.id}, 
 					React.createElement("p", null, "placeholder")
 				), 
-				React.createElement(Panel, {width: this.getPanelWidth("table1"), 
-					height: this.getHeight("table1") + this.props.panelHeaderHeight * 2 + 5, 
-					borderColor: this.props.panelBorderColor, 
-					title: this.props.tableTitle, 
-					headerHeight: this.props.panelHeaderHeight, 
-					panelId: "table1"}, 
+				React.createElement(Panel, {width: this.getDimension(this.props.table1.id, "panelWidth"), 
+					height: this.getDimension(this.props.table1.id, "panelHeight"), 
+					borderColor: this.props.panelStats.borderColor, 
+					title: this.props.table1.title, 
+					headerHeight: this.props.panelStats.headerHeight, 
+					panelId: this.props.table1.id}, 
 					React.createElement("p", null, "placeholder")
 				)
 			)
@@ -75923,9 +75966,9 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 	}
 });
 
-module.exports = Dashboard;         
+module.exports = Dashboard;
 
-},{"../../stores/dashboardStore":456,"./panel":445,"./sunburstChart":448,"react":426,"react-router":253}],444:[function(require,module,exports){
+},{"../../api/dashboardApi":434,"../../stores/dashboardStore":456,"./panel":445,"./sunburstChart":448,"react":426,"react-router":253}],444:[function(require,module,exports){
 "use strict";
 
 var React = require('react'); 
@@ -76197,7 +76240,8 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
   propTypes: {
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired,
-    radius: React.PropTypes.number.isRequired
+    radius: React.PropTypes.number.isRequired,
+    arcData: React.PropTypes.object.isRequired
   },
 
   getInitialState: function () {
@@ -76205,22 +76249,12 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
       agencyName: "Agency Name",
       riskScore: "",
       highlightedNodes: [],
-      arcData: {},
       fillOpacity: 1
     };
   },
 
   componentWillMount: function () {
     SunburstStore.addChangeListener(this._onChange);
-
-    var vm = this;
-
-    DashboardApi.getData(vm.props.radius, function (newArcData) {
-      var setArcData = {json: {}, array: []};
-      setArcData.json = newArcData.json; 
-      setArcData.array = newArcData.array;
-      vm.setState({arcData: setArcData});
-    });
   },
 
   componentWillUnmount: function () {
@@ -76241,7 +76275,7 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
   },
 
   render: function() {
-    if (this.state.arcData.array === undefined) {
+    if (this.props.arcData.array === undefined) {
       return (React.createElement("div", null));
     }
     return (
@@ -76250,7 +76284,7 @@ var SunburstChart = React.createClass({displayName: "SunburstChart",
                 React.createElement(Path, {height: this.props.height, 
                       width: this.props.width, 
                       radius: this.props.radius, 
-                      arcData: this.state.arcData, 
+                      arcData: this.props.arcData, 
                       highlightedNodes: this.state.highlightedNodes, 
                       fillOpacity: this.state.fillOpacity})
             ), 
@@ -76276,7 +76310,7 @@ var Link = Router.Link;
 var Home = React.createClass({displayName: "Home",
 	render: function () {
 		return (
-				React.createElement("div", {className: "jumbotron"}, 
+				React.createElement("div", {className: "jumbotron", style: {backgroundColor: "white"}}, 
 					React.createElement("h1", null, "React and D3"), 
 					React.createElement("p", null, "React, Router, Flux, and D3 for ultra responsive web apps and data visualizations"), 
 					React.createElement(Link, {to: "about", className: "btn btn-primary btn-lg"}, "Learn More")
@@ -76448,13 +76482,14 @@ var assign = require('object-assign');
 var _ = require('lodash');
 var CHANGE_EVENT = 'change'; 
 
-
-var _isThumbnail = {
-	"sunburstCDM": true,
-	"bar1": true,
-	"scatter1": true,
-	"table1": true
+var _didSunburstChange = false;
+var _panelSize = {
+	"sunburstCDM": "thumb",
+	"bar1": "thumb",
+	"scatter1": "thumb",
+	"table1": "thumb"
 };
+
 
 var DashboardStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -76470,7 +76505,11 @@ var DashboardStore = assign({}, EventEmitter.prototype, {
 	}, 
 
 	getIsThumbnail: function () {
-		return _isThumbnail;
+		return _panelSize;
+	},
+
+	didSunburstChange: function () {
+		return _didSunburstChange;
 	}
 });
 
@@ -76478,7 +76517,8 @@ Dispatcher.register(function(action){
 	switch(action.actionType) { 
 		case ActionTypes.TOGGLE_PANEL:
 			var id = action.panelId;
-			_isThumbnail[id] = !_isThumbnail[id];
+			_panelSize[id] = _panelSize[id] === "thumb" ? "full" : "thumb";
+			_didSunburstChange = id === "sunburstCDM";
 			DashboardStore.emitChange();
 			break;
 		default: 
