@@ -1,6 +1,25 @@
 Base for React application with D3 visualizations 
 ======
 
+## Dashboard Tasks
+### Top Priorities 
+- [ ] Sunburst visualization: display info in center cirlce
+- [ ] reset sunburst chart opacity on panel header click
+- [ ] bar graph sample viz
+- [ ] scatter plot sample viz
+- [ ] table sample viz
+- [ ] dynamic grid layout, try using CSS3's [Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes)
+
+### Other Tasks
+- [ ] animate moving panels with react-shuffle
+- [ ] testing! karma
+- [ ] more graph components
+- [ ] code review
+- [ ] menu options to add/remove panels?
+
+
+### Other Tasks
+
 ## Sources 
 The base of this React application is a modification the demo from Cory House's Pluralsight course, [Building Applications with React and Flux](https://www.pluralsight.com/courses/react-flux-building-applications). 
 
