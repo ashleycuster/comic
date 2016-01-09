@@ -19,8 +19,6 @@ Base for React application with D3 visualizations
 - [ ] menu options to add/remove panels?
 
 
-### Other Tasks
-
 ## Sources 
 The base of this React application is a modification the demo from Cory House's Pluralsight course, [Building Applications with React and Flux](https://www.pluralsight.com/courses/react-flux-building-applications). 
 
