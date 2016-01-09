@@ -4,6 +4,7 @@ Base for React application with D3 visualizations
 ## Dashboard Tasks
 ### Top Priorities 
 - [ ] Sunburst visualization: display info in center cirlce
+- [ ] update sunburst position in panel
 - [ ] reset sunburst chart opacity on panel header click
 - [ ] bar graph sample viz
 - [ ] scatter plot sample viz
