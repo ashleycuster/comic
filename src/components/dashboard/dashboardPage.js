@@ -148,7 +148,6 @@ var Dashboard = React.createClass({
 					title={this.props.bar1.title}
 					headerHeight={this.props.panelStats.headerHeight}
 					panelId={this.props.bar1.id}>
-					<p>placeholder</p>
 				</Panel>
 				<Panel width={this.getDimension(this.props.scatter1.id, "panelWidth")}
 					height={this.getDimension(this.props.scatter1.id, "panelHeight")}
@@ -156,7 +155,6 @@ var Dashboard = React.createClass({
 					title={this.props.scatter1.title}
 					headerHeight={this.props.panelStats.headerHeight}
 					panelId={this.props.scatter1.id}>
-					<p>placeholder</p>
 				</Panel>
 				<Panel width={this.getDimension(this.props.table1.id, "panelWidth")}
 					height={this.getDimension(this.props.table1.id, "panelHeight")}
@@ -164,7 +162,6 @@ var Dashboard = React.createClass({
 					title={this.props.table1.title}
 					headerHeight={this.props.panelStats.headerHeight}
 					panelId={this.props.table1.id}>
-					<p>placeholder</p>
 				</Panel>         
 			</div>
 			);

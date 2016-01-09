@@ -75444,31 +75444,29 @@ var React = require('react');
 
 var About = React.createClass({displayName: "About",
 	statics: {
-		willTransitionTo: function(transition, params, query, callback) {
-			if (!confirm('Are you sure you want to read a page that\'s this boring?')) {
-				transition.about(); 
-			}
-			else { 
-				callback(); 
-			}
-		}, 
-		willTransitionFrom: function(transition, component) {
-			if (!confirm('Are you sure you want to leave a page this exciting?')) {
-				transition.about(); 
-			}
-		}
+		// willTransitionTo: function(transition, params, query, callback) {
+		// 	if (!confirm('Are you sure you want to read a page that\'s this boring?')) {
+		// 		transition.about(); 
+		// 	}
+		// 	else { 
+		// 		callback(); 
+		// 	}
+		// }, 
+		// willTransitionFrom: function(transition, component) {
+		// 	if (!confirm('Are you sure you want to leave a page this exciting?')) {
+		// 		transition.about(); 
+		// 	}
+		// }
 	},
 	render: function () {
 		return (
 				React.createElement("div", null, 
 					React.createElement("h1", null, "About"), 
-					React.createElement("p", null, 
-						"This application...",  
+					React.createElement("p", null, "This application..."), 
 						React.createElement("ul", null, 
 							React.createElement("li", null, "React"), 
 							React.createElement("li", null, "React Router")
 						)
-					)
 				) 
 			);
 	}
@@ -75942,24 +75940,21 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 					borderColor: this.props.panelStats.borderColor, 
 					title: this.props.bar1.title, 
 					headerHeight: this.props.panelStats.headerHeight, 
-					panelId: this.props.bar1.id}, 
-					React.createElement("p", null, "placeholder")
+					panelId: this.props.bar1.id}
 				), 
 				React.createElement(Panel, {width: this.getDimension(this.props.scatter1.id, "panelWidth"), 
 					height: this.getDimension(this.props.scatter1.id, "panelHeight"), 
 					borderColor: this.props.panelStats.borderColor, 
 					title: this.props.scatter1.title, 
 					headerHeight: this.props.panelStats.headerHeight, 
-					panelId: this.props.scatter1.id}, 
-					React.createElement("p", null, "placeholder")
+					panelId: this.props.scatter1.id}
 				), 
 				React.createElement(Panel, {width: this.getDimension(this.props.table1.id, "panelWidth"), 
 					height: this.getDimension(this.props.table1.id, "panelHeight"), 
 					borderColor: this.props.panelStats.borderColor, 
 					title: this.props.table1.title, 
 					headerHeight: this.props.panelStats.headerHeight, 
-					panelId: this.props.table1.id}, 
-					React.createElement("p", null, "placeholder")
+					panelId: this.props.table1.id}
 				)
 			)
 			);
