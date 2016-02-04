@@ -53,6 +53,56 @@ var SunburstChart = React.createClass({
     return (
         <div>
            <svg width={this.props.width} height={this.props.height} style={{float: "left"}} >
+                 <defs>
+                    <pattern id="Triangle" 
+                             width="10" height="10"
+                             patternUnits="userSpaceOnUse"
+                             style={{fill: "#b0b0b0"}}>
+                        <polygon points="5,0 10,10 0,10"/>
+                    </pattern>
+                </defs>
+                <defs>
+                  <pattern id="circle"
+                            x="10" y="10" width="20" height="20"
+                            patternUnits="userSpaceOnUse"
+                             style={{fill: "#b0b0b0"}}>
+                          <circle cx="10" cy="10" r="10" style={{fill: "#b0b0b0"}} />
+                  </pattern>
+                </defs>
+                <defs>
+                  <pattern id="dotsUsersDiscovered"
+                            x="10" y="10" width="5" height="5"
+                            patternUnits="userSpaceOnUse"
+                             style={{fill: "#3b3b3b"}}>
+                          <rect width="4" height="5" style={{fill: "#3b3b3b"}} />
+                          <rect width="5" height="4" style={{fill: "#3b3b3b"}} />
+                  </pattern>
+                </defs>
+                <defs>
+                  <pattern id="dotsDevicesDiscovered"
+                            x="10" y="10" width="5" height="5"
+                            patternUnits="userSpaceOnUse"
+                             style={{fill: "#b0b0b0"}}>
+                          <rect width="4" height="5" style={{fill: "#b0b0b0"}} />
+                          <rect width="5" height="4" style={{fill: "#b0b0b0"}} />
+                  </pattern>
+                </defs>
+                <defs>
+                  <pattern id="stripesHorizontalUserProvided"
+                            x="10" y="10" width="5" height="5"
+                            patternUnits="userSpaceOnUse"
+                             style={{fill: "#3b3b3b"}}>
+                          <rect width="5" height="4" style={{fill: "#3b3b3b"}} />
+                  </pattern>
+                </defs>
+                <defs>
+                  <pattern id="stripesHorizontalDevicesProvided"
+                            x="10" y="10" width="5" height="5"
+                            patternUnits="userSpaceOnUse"
+                             style={{fill: "#b0b0b0"}}>
+                          <rect width="5" height="4" style={{fill: "#b0b0b0"}} />
+                  </pattern>
+                </defs>
                 <Path height={this.props.height}
                       width={this.props.width}
                       radius={this.props.radius}

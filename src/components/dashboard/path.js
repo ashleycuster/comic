@@ -17,7 +17,8 @@
 "use strict"; 
 
 var React = require('react'); 
-var d3 = require('d3'); 
+var d3 = require('d3');
+var textures = require('textures');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var DashboardApi = require('../../api/dashboardApi');
@@ -45,7 +46,8 @@ var Path = React.createClass({
 
     getDefaultProps: function () { 
       return {
-        arc: arc
+        arc: arc,
+        texture1: textures.lines()
       };
     },
 
@@ -54,9 +56,21 @@ var Path = React.createClass({
     getAncestors: function (node) {
       var path = [];
       var current = node;
-      while (current.parent) {
-        path.unshift(current);
-        current = current.parent;
+      path.push(current);
+      // while (current.parent) {
+      //   path.unshift(current);
+      //   current = current.parent;
+      // }
+      // highlight children
+      if (current.children && current.parent) {
+        current.children.forEach(function (entry) {
+          path.push(entry);
+          if (entry.children) {
+            entry.children.forEach(function (child) {
+              path.push(child);
+            });
+          }
+        });
       }
       return path;
     },
@@ -93,7 +107,7 @@ var Path = React.createClass({
         "fill-rule": "evenodd",
         stroke: "#fff",
         fillOpacity: vm.props.highlightedNodes.indexOf(node) >= 0 ? 1 : vm.props.fillOpacity,
-        fill: node.name !== "root" ? DashboardApi.calculateColor(node.name) : "#ffffff",
+        fill: node.name !== "root" ? DashboardApi.getCdmColor(node) : "#ffffff",
         key: uuid.v4(),
         onMouseOver: (function (selectedNode) {return function () { vm.setHighlightedNodes(selectedNode); }; })(node)
       };

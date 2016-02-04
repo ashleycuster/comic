@@ -27,6 +27,7 @@
     "react-router": "^0.13.3",
     "react-shuffle": "^1.0.0",
     "reactify": "^1.1.1",
+    "textures": "^1.0.3",
     "toastr": "^2.1.0",
     "vinyl-source-stream": "^1.1.0"
   }

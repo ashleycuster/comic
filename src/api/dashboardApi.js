@@ -70,7 +70,7 @@ var DashboardApi = {
 		var vm = this;
 	// Use d3.text and d3.csv.parseRows so that we do not need to have a header
 	// row, and can receive the csv as an array of arrays.
-		d3.text("data/dhs_endpoints.csv", function(text) {
+		d3.text("data/cdm_metrics.csv", function(text) {
 			var newArcData = { json: {}, array: [] };
 			var csv = d3.csv.parseRows(text);
 			var json = vm.buildHierarchy(csv);
@@ -116,6 +116,52 @@ var DashboardApi = {
 		greenHex = greenHex.length < 2 ? "0" + greenHex : greenHex;
 		var colorHex = "#" + redHex + greenHex + "00"; 
 		return colorHex; 
+	},
+
+	calculateColorIntensity: function (name) {
+		var score = this.dhsAgencyRiskScores[name];
+		score = (score % 100) / 100;
+		var greenMax = 102; 
+		var redMax = 65;
+
+		var greenHex = Math.floor(greenMax * score).toString(16);
+		var redHex = Math.floor(redMax * score).toString(16);
+		redHex = redHex.length < 2 ? "0" + redHex : redHex;
+		greenHex = greenHex.length < 2 ? "0" + greenHex : greenHex;
+		var colorHex = "#" + redHex + greenHex + "00";
+		return colorHex;
+	},
+
+	getCdmColor: function (node) {
+		var name = node.name;
+		var parentName = node.parent.name;
+		var color = "";
+		if (name === "users") {
+			color = "#3b3b3b";
+		}
+		else if (name === "devices") {
+			color = "#b0b0b0";
+		}
+		else if (parentName === "users") {
+			if (name === "provided") {
+				color = "url(#stripesHorizontalUserProvided)";
+			}
+			else {
+				color = "url(#dotsUsersDiscovered)";
+			}
+		}
+		else if (parentName === "devices") {
+			if (name === "provided") {
+				color = "url(#stripesHorizontalDevicesProvided)";
+			}
+			else {
+				color = "url(#dotsDevicesDiscovered)";
+			}
+		}
+		else {
+			color = "#898989";
+		}
+		return color;
 	},
 
 	dhsAgencyRiskScores: {
