@@ -18,7 +18,6 @@
 
 var React = require('react'); 
 var d3 = require('d3');
-var textures = require('textures');
 var _ = require('lodash');
 var uuid = require('node-uuid');
 var DashboardApi = require('../../api/dashboardApi');
@@ -46,8 +45,7 @@ var Path = React.createClass({
 
     getDefaultProps: function () { 
       return {
-        arc: arc,
-        texture1: textures.lines()
+        arc: arc
       };
     },
 
