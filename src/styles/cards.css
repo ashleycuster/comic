@@ -1,0 +1,37 @@
+body {
+	background-color: #f1f1f1;
+	font-family: 'Helvetica Neue','Helvetica',sans-serif;
+}
+
+.gameTable {
+	float: left;
+	margin: 10px;
+	height: 300px;
+	width: 70%;
+	border-style: solid;
+	border-color: #aaaaaa;
+	background-color: #aaaaaa;
+	border-radius: 25px;
+	padding: 2px;
+}
+
+.card {
+	height: 80%;
+	width: 17%;
+	margin: 10px;
+	border-style: solid; 
+	border-color: #ffee58;
+	float: left;
+	border-radius: 25px;
+}
+
+.cardInfo {
+	text-align: center;
+	margin: 5px;
+}
+
+.cardAction {
+	margin-bottom: 10px;
+	cursor: pointer;
+	text-align: center;
+}

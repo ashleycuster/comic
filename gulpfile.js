@@ -21,8 +21,7 @@ var config = {
 			'node_modules/bootstrap/dist/css/bootstrap.min.css', 
 			'node_modules/bootstrap/dist/css/bootstrap-theme.min.css', 
 			'node_modules/toastr/build/toastr.css',
-			'src/styles/sequences.css',
-			'src/styles/dashboard.css'
+			'src/styles/cards.css',
 		],
 		dist: './dist', 
 		mainJs: './src/main.js'
@@ -75,10 +74,7 @@ gulp.task('data', function () {
 gulp.task('images', function () {
 	gulp.src(config.paths.images)
 		.pipe(gulp.dest(config.paths.dist + '/images'))
-		.pipe(connect.reload()); 
-
-	gulp.src('./src/favicon.ico')
-		.pipe(gulp.dest(config.paths.dist)); 	
+		.pipe(connect.reload());  	
 }); 
 
 gulp.task('lint', function () { 
