@@ -8,7 +8,8 @@ var _ = require('lodash');
 var uuid = require('node-uuid');
 var CHANGE_EVENT = 'change'; 
 
-var _bubbles = [{ key: uuid.v4(), character: 1, text: null }];
+var _initialId = uuid.v4();
+var _bubbles = [{ id: _initialId, character: 1, text: null }];
 
 var ComicStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -24,7 +25,8 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 	}, 
 
 	addBubble: function () {
-		_bubbles.push({ key: uuid.v4(), character: 1, text: null });
+		var id = uuid.v4();
+		_bubbles.push({ id: id, character: 1, text: null });
 	}, 
 
 	removeBubble: function (bubble) {

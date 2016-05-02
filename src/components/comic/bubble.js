@@ -6,7 +6,7 @@ var ComicActions = require('../../actions/comicActions');
 
 var Bubble = React.createClass({
   propTypes: {
-    key: React.PropTypes.number.isRequired,
+    id: React.PropTypes.string.isRequired,
     character: React.PropTypes.number.isRequired,
     text: React.PropTypes.string
   },
@@ -16,7 +16,7 @@ var Bubble = React.createClass({
       var vm = this;
       return (
           <div className="bubbles">
-              <input placeholder="Enter text here" value={this.props.text}></input>
+              <input style={{ width: "60%", display: "block", margin: "15px auto" }} placeholder="Enter text here" value={this.props.text}></input>
           </div>
         );
     }

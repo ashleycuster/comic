@@ -7,7 +7,7 @@ var ComicActions = {
 
 	addBubble: function () {
 		Dispatcher.dispatch({
-			actionType: ActionTypes.ADD_BUBBLE,
+			actionType: ActionTypes.ADD_BUBBLE
 		});
 	},
 

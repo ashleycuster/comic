@@ -49,6 +49,7 @@ Entity.prototype._createNamed = function createNamed(base) {
 };
 
 Entity.prototype._getDecoder = function _getDecoder(enc) {
+  enc = enc || 'der';
   // Lazily create decoder
   if (!this.decoders.hasOwnProperty(enc))
     this.decoders[enc] = this._createNamed(asn1.decoders[enc]);
@@ -60,6 +61,7 @@ Entity.prototype.decode = function decode(data, enc, options) {
 };
 
 Entity.prototype._getEncoder = function _getEncoder(enc) {
+  enc = enc || 'der';
   // Lazily create encoder
   if (!this.encoders.hasOwnProperty(enc))
     this.encoders[enc] = this._createNamed(asn1.encoders[enc]);
@@ -607,8 +609,6 @@ Node.prototype._decodeGeneric = function decodeGeneric(tag, input) {
     return this._getUse(state.use, input._reporterState.obj)._decode(input);
   else
     return input.error('unknown tag: ' + tag);
-
-  return null;
 };
 
 Node.prototype._getUse = function _getUse(entity, obj) {
@@ -684,7 +684,6 @@ Node.prototype._encodeValue = function encode(data, reporter, parent) {
     return state.children[0]._encode(data, reporter || new Reporter());
 
   var result = null;
-  var present = true;
 
   // Set reporter to share it with a child class
   this.reporter = reporter;
@@ -696,9 +695,6 @@ Node.prototype._encodeValue = function encode(data, reporter, parent) {
     else
       return;
   }
-
-  // For error reporting
-  var prevKey;
 
   // Encode children first
   var content = null;
@@ -1321,7 +1317,6 @@ decoders.pem = require('./pem');
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
-var asn1 = require('../../asn1');
 var DERDecoder = require('./der');
 
 function PEMDecoder(entity) {
@@ -1369,13 +1364,12 @@ PEMDecoder.prototype.decode = function decode(data, options) {
   return DERDecoder.prototype.decode.call(this, input, options);
 };
 
-},{"../../asn1":1,"./der":9,"buffer":44,"inherits":95}],12:[function(require,module,exports){
+},{"./der":9,"buffer":44,"inherits":95}],12:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
 var asn1 = require('../../asn1');
 var base = asn1.base;
-var bignum = asn1.bignum;
 
 // Import DER constants
 var der = asn1.constants.der;
@@ -1673,9 +1667,7 @@ encoders.pem = require('./pem');
 
 },{"./der":12,"./pem":14}],14:[function(require,module,exports){
 var inherits = require('inherits');
-var Buffer = require('buffer').Buffer;
 
-var asn1 = require('../../asn1');
 var DEREncoder = require('./der');
 
 function PEMEncoder(entity) {
@@ -1696,7 +1688,7 @@ PEMEncoder.prototype.encode = function encode(data, options) {
   return out.join('\n');
 };
 
-},{"../../asn1":1,"./der":12,"buffer":44,"inherits":95}],15:[function(require,module,exports){
+},{"./der":12,"inherits":95}],15:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -14298,7 +14290,7 @@ module.exports={
   "_args": [
     [
       "elliptic@^6.0.0",
-      "/Users/ashleycuster/code/react/cards_small/node_modules/browserify-sign"
+      "/Users/ashleycuster/code/react/comic/node_modules/browserify-sign"
     ]
   ],
   "_from": "elliptic@>=6.0.0 <7.0.0",
@@ -14329,7 +14321,7 @@ module.exports={
   "_shasum": "18e46d7306b0951275a2d42063270a14b74ebe99",
   "_shrinkwrap": null,
   "_spec": "elliptic@^6.0.0",
-  "_where": "/Users/ashleycuster/code/react/cards_small/node_modules/browserify-sign",
+  "_where": "/Users/ashleycuster/code/react/comic/node_modules/browserify-sign",
   "author": {
     "email": "fedor@indutny.com",
     "name": "Fedor Indutny"
@@ -53092,6 +53084,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 },{"./_stream_duplex":315,"core-util-is":48,"inherits":95}],319:[function(require,module,exports){
+(function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -53105,7 +53098,7 @@ var processNextTick = require('process-nextick-args');
 /*</replacement>*/
 
 /*<replacement>*/
-var asyncWrite = !true ? setImmediate : processNextTick;
+var asyncWrite = !process.browser && ['v0.10', 'v0.9.'].indexOf(process.version.slice(0, 5)) > -1 ? setImmediate : processNextTick;
 /*</replacement>*/
 
 /*<replacement>*/
@@ -53608,12 +53601,14 @@ function CorkedRequest(state) {
     }
   };
 }
-},{"./_stream_duplex":315,"buffer":44,"core-util-is":48,"events":82,"inherits":95,"process-nextick-args":108,"util-deprecate":336}],320:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"./_stream_duplex":315,"_process":109,"buffer":44,"core-util-is":48,"events":82,"inherits":95,"process-nextick-args":108,"util-deprecate":336}],320:[function(require,module,exports){
 arguments[4][45][0].apply(exports,arguments)
 },{"dup":45}],321:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
 },{"./lib/_stream_passthrough.js":316}],322:[function(require,module,exports){
+(function (process){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -53627,13 +53622,12 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-// inline-process-browser and unreachable-branch-transform make sure this is
-// removed in browserify builds
-if (!true) {
-  module.exports = require('stream');
+if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
+  module.exports = Stream;
 }
 
-},{"./lib/_stream_duplex.js":315,"./lib/_stream_passthrough.js":316,"./lib/_stream_readable.js":317,"./lib/_stream_transform.js":318,"./lib/_stream_writable.js":319,"stream":334}],323:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"./lib/_stream_duplex.js":315,"./lib/_stream_passthrough.js":316,"./lib/_stream_readable.js":317,"./lib/_stream_transform.js":318,"./lib/_stream_writable.js":319,"_process":109}],323:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
 },{"./lib/_stream_transform.js":318}],324:[function(require,module,exports){
@@ -55228,45 +55222,32 @@ exports.createContext = Script.createContext = function (context) {
 var Dispatcher = require('../dispatcher/appDispatcher'); 
 var ActionTypes = require('../constants/actionTypes'); 
 
-var DeckActions = {
+var ComicActions = {
 
-	openDeck: function () {
+	addBubble: function () {
 		Dispatcher.dispatch({
-			actionType: ActionTypes.OPEN
+			actionType: ActionTypes.ADD_BUBBLE
 		});
 	},
 
-	dealFiveCards: function () {
+	removeBubble: function (bubble) {
 		Dispatcher.dispatch({
-			actionType: ActionTypes.DEAL
+			actionType: ActionTypes.REMOVE_BUBBLE,
+			bubble: bubble
 		});
 	},
 
-	shuffleDeck: function () {
+	modifyBubble: function (bubble) {
 		Dispatcher.dispatch({
-			actionType: ActionTypes.SHUFFLE
-		});
-	},
-
-	swapCard: function (card) {
-		Dispatcher.dispatch({
-			actionType: ActionTypes.SWAP,
-			card: card
-		});
-	}, 
-
-
-	flipCard: function (card) {
-		Dispatcher.dispatch({
-			actionType: ActionTypes.FLIP,
-			card: card
+			actionType: ActionTypes.MODIFY_BUBBLE,
+			bubble: bubble
 		});
 	}
 }; 
 
-module.exports = DeckActions; 
+module.exports = ComicActions; 
 
-},{"../constants/actionTypes":344,"../dispatcher/appDispatcher":345}],339:[function(require,module,exports){
+},{"../constants/actionTypes":343,"../dispatcher/appDispatcher":344}],339:[function(require,module,exports){
 /*eslint-disable strict */
 
 var React = require('react'); 
@@ -55291,56 +55272,42 @@ module.exports = App;
 "use strict"; 
 
 var React = require('react'); 
-var DeckActions = require('../../actions/deckActions');
+var ComicActions = require('../../actions/comicActions');
 
 
-var Card = React.createClass({displayName: "Card",
+var Bubble = React.createClass({displayName: "Bubble",
   propTypes: {
-    info: React.PropTypes.object.isRequired
+    id: React.PropTypes.string.isRequired,
+    character: React.PropTypes.number.isRequired,
+    text: React.PropTypes.string
   },
 
-    flipCard: function () {
-      DeckActions.flipCard(this.props.info);
-    },
-
-    swapCard: function () {
-      DeckActions.swapCard(this.props.info);
-    },
-
-    getCardText: function () {
-      if (this.props.info.isFaceUp) {
-        return String(this.props.info.value) + " of " + this.props.info.suit;
-      }
-    },
-
-    getColor: function () {
-      return this.props.info.isFaceUp ? "white" : "#ffee58";
-    },
-
+    // bubble needs a dropdown to select character, input textbox, buttons to modify and delete
     render: function() {
       var vm = this;
       return (
-          React.createElement("div", {className: "card", style: { backgroundColor: this.getColor()}}, 
-              React.createElement("p", {className: "cardInfo"}, this.getCardText()), 
-              React.createElement("p", {className: "cardAction", onClick: this.flipCard}, "Flip!"), 
-              React.createElement("p", {className: "cardAction", onClick: this.swapCard}, "Swap!")
+          React.createElement("div", {className: "bubbles"}, 
+              React.createElement("input", {style: { width: "60%", display: "block", margin: "15px auto"}, placeholder: "Enter text here", value: this.props.text})
           )
         );
     }
 });
 
-module.exports = Card;
+module.exports = Bubble;
 
-},{"../../actions/deckActions":338,"react":313}],341:[function(require,module,exports){
+},{"../../actions/comicActions":338,"react":313}],341:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
 var Router = require('react-router'); 
-var Table = require('./table');
-var DeckStore = require('../../stores/DeckStore');
-var DeckActions = require('../../actions/deckActions');
+var Bubble = require('./bubble');
+var ComicStore = require('../../stores/ComicStore');
+var ComicActions = require('../../actions/comicActions');
+var uuid = require('node-uuid');
 
-var Deck = React.createClass({displayName: "Deck",
+
+
+var ComicPage = React.createClass({displayName: "ComicPage",
 	mixins: [
 		Router.Navigation
 	],
@@ -55349,95 +55316,58 @@ var Deck = React.createClass({displayName: "Deck",
 
 	getInitialState: function () {
 		return {
-			cardsOnTable: DeckStore.getCardsOnTable(),
-			isGameOpen: DeckStore.getIsOpen()
+			bubbles: ComicStore.getBubbles()
 		};
 	},
 
 	componentWillMount: function () {
-		DeckStore.addChangeListener(this._onChange);
+		ComicStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount: function () {
-		DeckStore.removeChangeListener(this._onChange); 
+		ComicStore.removeChangeListener(this._onChange); 
 	},
 
 	_onChange: function () {
-		var cardsOnTable = DeckStore.getCardsOnTable();
-		var isGameOpen = DeckStore.getIsOpen();
-		this.setState({ cardsOnTable: cardsOnTable, isGameOpen: isGameOpen });
+		var bubbles = ComicStore.getBubbles();
+		this.setState({ bubbles: bubbles });
 	},
 
-	openDeck: function () {
-		DeckActions.openDeck();
+	addBubble: function () {
+		ComicActions.addBubble();
 	},
 
-	dealFiveCards: function () {
-		DeckActions.dealFiveCards();
-	},
-
-	shuffleDeck: function () {
-		DeckActions.shuffleDeck();
-	},
-
-	getTableDisplay: function () {
-		return this.state.isGameOpen ? "block" : "none";
+	createBubble: function (bubbleObj) {
+		var properties = {
+					id: bubbleObj.id,
+					character: bubbleObj.character,
+					text: bubbleObj.text
+				};
+		return (
+				React.createElement(Bubble, {
+					key: uuid.v4(), 
+					character: bubbleObj.character, 
+					id: bubbleObj.id, 
+					text: bubbleObj.text})
+			);
 	},
 
     render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement("div", {style: { float: "left"}}, 
-					React.createElement("input", {type: "submit", value: this.state.isGameOpen ? "Close" : "Open", className: "btn btn-default", onClick: this.openDeck, style: { margin: 10}}), " ", React.createElement("br", null), 
-					React.createElement("input", {disabled: !this.state.isGameOpen, type: "submit", value: "Deal", className: "btn btn-default", onClick: this.dealFiveCards, style: { margin: 10}}), " ", React.createElement("br", null), 
-					React.createElement("input", {disabled: !this.state.isGameOpen, type: "submit", value: "Shuffle", className: "btn btn-default", onClick: this.shuffleDeck, style: { margin: 10}}), " ", React.createElement("br", null)
-				), 
-				React.createElement("div", {style: { display: this.getTableDisplay()}}, 
-					React.createElement(Table, {cards: this.state.cardsOnTable})
+				React.createElement("h1", {style: { textAlign: "center", color: "#c56395"}}, "COMIC GENERATOR"), 
+				React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto", marginTop: 100}}, 
+					this.state.bubbles.map(this.createBubble, this), 
+					React.createElement("p", {onClick: this.addBubble, style: { textAlign: 'center', cursor: 'pointer'}}, "+ Add Speech Bubble")
 				)
 			)
 			);
 	}
 });
 
-module.exports = Deck;
+module.exports = ComicPage;
 
-},{"../../actions/deckActions":338,"../../stores/DeckStore":348,"./table":342,"react":313,"react-router":142}],342:[function(require,module,exports){
-"use strict"; 
-
-var React = require('react'); 
-var Card = require('./card');
-var uuid = require('node-uuid');
-
-
-
-var Table = React.createClass({displayName: "Table",
-    propTypes: {
-      cards: React.PropTypes.array
-    },
-
-    render: function() {
-      var placeCard = function (card) {
-        var props = {
-          key: uuid.v4(),
-          info: card
-        };
-        return (
-          React.createElement(Card, React.__spread({},  props))
-        );
-      };
-
-      return (
-          React.createElement("div", {className: "gameTable"}, 
-              this.props.cards.map(placeCard, this)
-          )
-        );
-    }
-});
-
-module.exports = Table;
-
-},{"./card":340,"node-uuid":101,"react":313}],343:[function(require,module,exports){
+},{"../../actions/comicActions":338,"../../stores/ComicStore":347,"./bubble":340,"node-uuid":101,"react":313,"react-router":142}],342:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -55457,18 +55387,16 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage; 
 
-},{"react":313,"react-router":142}],344:[function(require,module,exports){
+},{"react":313,"react-router":142}],343:[function(require,module,exports){
 "use strict"; 
 
 module.exports = { 
-	OPEN: "OPEN", 
-	SHUFFLE: "SHUFFLE", 
-	DEAL: "DEAL", 
-	FLIP: "FLIP", 
-	SWAP: "SWAP"
+	ADD_BUBBLE: "ADD_BUBBLE",
+	REMOVE_BUBBLE: "REMOVE_BUBBLE",
+	MODIFY_BUBBLE: "MODIFY_BUBBLE"
 };
 
-},{}],345:[function(require,module,exports){
+},{}],344:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -55486,7 +55414,7 @@ var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":85}],346:[function(require,module,exports){
+},{"flux":85}],345:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -55498,7 +55426,7 @@ Router.run(routes, function(Handler) {
 	ReactDOM.render(React.createElement(Handler, null), document.getElementById('app')); 
 });
 
-},{"./routes":347,"react":313,"react-dom":117,"react-router":142}],347:[function(require,module,exports){
+},{"./routes":346,"react":313,"react-dom":117,"react-router":142}],346:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -55511,15 +55439,15 @@ var Redirect = Router.Redirect;
 
 var routes = (
 	React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
-		React.createElement(DefaultRoute, {handler: require('./components/cards/deck')}), 
-		React.createElement(Route, {name: "deck", handler: require('./components/cards/deck')}), 
+		React.createElement(DefaultRoute, {handler: require('./components/comic/comicPage')}), 
+		React.createElement(Route, {name: "comic", handler: require('./components/comic/comicPage')}), 
 		React.createElement(NotFoundRoute, {handler: require('./components/notFoundPage')})
 	)
 );
 
 module.exports = routes; 
 
-},{"./components/app":339,"./components/cards/deck":341,"./components/notFoundPage":343,"react":313,"react-router":142}],348:[function(require,module,exports){
+},{"./components/app":339,"./components/comic/comicPage":341,"./components/notFoundPage":342,"react":313,"react-router":142}],347:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -55527,25 +55455,13 @@ var ActionTypes = require('../constants/actionTypes');
 var EventEmitter = require('events').EventEmitter; 
 var assign = require('object-assign'); 
 var _ = require('lodash');
+var uuid = require('node-uuid');
 var CHANGE_EVENT = 'change'; 
 
-var _cardsInDeck = [];
-var _cardsOnTable = [];
-var _suits = ['Diamonds', 'Clubs', 'Hearts', 'Spades']; 
-var _numInSuit = 13;
-var _isOpen = false;
-var _isFaceUpDefault = false;
+var _initialId = uuid.v4();
+var _bubbles = [{ id: _initialId, character: 1, text: null }];
 
-var _returnAllCardsToDeck = function () {
-	for (var i = 0, count = _cardsOnTable.length; i < count; i++) {
-		var cardReturningToDeck = _cardsOnTable.pop();
-		cardReturningToDeck.isFaceUp = _isFaceUpDefault;
-		_cardsInDeck.push(cardReturningToDeck);
-	}
-};
-
-
-var DeckStore = assign({}, EventEmitter.prototype, {
+var ComicStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
 		this.on(CHANGE_EVENT, callback); 
 	},
@@ -55558,94 +55474,39 @@ var DeckStore = assign({}, EventEmitter.prototype, {
 		this.emit(CHANGE_EVENT); 
 	}, 
 
-	getCardsInDeck: function () {
-		return _cardsInDeck;
+	addBubble: function () {
+		var id = uuid.v4();
+		_bubbles.push({ id: id, character: 1, text: null });
 	}, 
 
-	getCardsOnTable: function () {
-		return _cardsOnTable;
+	removeBubble: function (bubble) {
+		_bubbles.remove(bubble);
 	},
 
-	getIsOpen: function () {
-		return _isOpen; 
+	modifyBubble: function (bubble) {
+		return;
 	},
 
-	createDeck: function () {
-		if (_cardsInDeck.length < 1) {
-			for (var i = 0, count = _suits.length; i < count; i++) {
-				for (var j = 1; j < _numInSuit + 1; j++) {
-					_cardsInDeck.push({ suit: _suits[i], value: j, isFaceUp: _isFaceUpDefault });
-				}
-			}
-			_isOpen = true;
-		}
-		else {
-			_cardsInDeck = [];
-			_cardsOnTable = [];
-			_isOpen = false;
-		}
-		return; 
-	}, 
-
-	dealFiveCards: function () {
-		_returnAllCardsToDeck();
-		// take top five cards from cardsInDeck and push to cardsOnTable
-		for (var i = 0, count = 5; i < count; i++) {
-			_cardsOnTable.push(_cardsInDeck.shift());
-		}
-		return;
-	}, 
-
-	shuffleDeck: function () {
-		_returnAllCardsToDeck();
-		_cardsInDeck = _.shuffle(_cardsInDeck); 
-	}, 
-
-	swapCard: function (card) {
-		var cardIndex = _.findIndex(_cardsOnTable, { suit: card.suit, value: card.value });
-		var cardReturningToDeck = _cardsOnTable[cardIndex];
-		var faceUpStatus = cardReturningToDeck.isFaceUp;
-		cardReturningToDeck.isFaceUp = _isFaceUpDefault;
-		_cardsOnTable[cardIndex] = _cardsInDeck.shift();
-		_cardsOnTable[cardIndex].isFaceUp = faceUpStatus;
-		_cardsInDeck.push(cardReturningToDeck);	
-		return; 
-	}, 
-
-	flipCard: function (card) { 
-		var cardIndex = _.findIndex(_cardsOnTable, { suit: card.suit, value: card.value });
-		_cardsOnTable[cardIndex].isFaceUp = !_cardsOnTable[cardIndex].isFaceUp;
-		return;
+	getBubbles: function () {
+		return _bubbles;
 	}
 });
 
 Dispatcher.register(function(action){
 	switch(action.actionType) { 
-		case ActionTypes.OPEN:
-			DeckStore.createDeck();
-			DeckStore.emitChange();
+		case ActionTypes.ADD_BUBBLE:
+			ComicStore.addBubble(action.bubble);
+			ComicStore.emitChange();
+			break;
+		case ActionTypes.REMOVE_BUBBLE:
+			ComicStore.removeBubble(action.bubble);
+			ComicStore.emitChange();
 			break; 
-		case ActionTypes.DEAL:
-			DeckStore.dealFiveCards();
-			DeckStore.emitChange();
-			break;
-		case ActionTypes.SHUFFLE: 
-			DeckStore.shuffleDeck();
-			DeckStore.emitChange();
-			break;
-		case ActionTypes.SWAP:
-			DeckStore.swapCard(action.card);
-			DeckStore.emitChange();
-			break; 
-		case ActionTypes.FLIP:
-			DeckStore.flipCard(action.card);
-			DeckStore.emitChange();
-			break;
 		default: 
 			// no op
 	}
 });
 
-module.exports = DeckStore; 
+module.exports = ComicStore; 
 
-},{"../constants/actionTypes":344,"../dispatcher/appDispatcher":345,"events":82,"lodash":98,"object-assign":102}]},{},[346]);
+},{"../constants/actionTypes":343,"../dispatcher/appDispatcher":344,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[345]);
