@@ -18,10 +18,13 @@ var ComicActions = {
 		});
 	},
 
-	modifyBubble: function (bubble) {
+	modifyBubble: function (id, text) {
 		Dispatcher.dispatch({
 			actionType: ActionTypes.MODIFY_BUBBLE,
-			bubble: bubble
+			bubble: {
+				id: id, 
+				text: text
+			}
 		});
 	}
 }; 

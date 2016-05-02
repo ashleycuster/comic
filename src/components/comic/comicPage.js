@@ -32,6 +32,7 @@ var ComicPage = React.createClass({
 
 	_onChange: function () {
 		var bubbles = ComicStore.getBubbles();
+		console.log(bubbles);
 		this.setState({ bubbles: bubbles });
 	},
 

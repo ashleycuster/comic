@@ -33,7 +33,9 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 		_bubbles.remove(bubble);
 	},
 
-	modifyBubble: function (bubble) {
+	modifyBubble: function (bubbleId, bubbleText) {
+		var bubbleIndex = _.findIndex(_bubbles, { id: bubbleId });
+		_bubbles[bubbleIndex].text = bubbleText;
 		return;
 	},
 
@@ -50,6 +52,10 @@ Dispatcher.register(function(action){
 			break;
 		case ActionTypes.REMOVE_BUBBLE:
 			ComicStore.removeBubble(action.bubble);
+			ComicStore.emitChange();
+			break; 
+		case ActionTypes.MODIFY_BUBBLE:
+			ComicStore.modifyBubble(action.bubble.id, action.bubble.text);
 			ComicStore.emitChange();
 			break; 
 		default: 

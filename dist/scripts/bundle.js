@@ -55237,10 +55237,13 @@ var ComicActions = {
 		});
 	},
 
-	modifyBubble: function (bubble) {
+	modifyBubble: function (id, text) {
 		Dispatcher.dispatch({
 			actionType: ActionTypes.MODIFY_BUBBLE,
-			bubble: bubble
+			bubble: {
+				id: id, 
+				text: text
+			}
 		});
 	}
 }; 
@@ -55282,12 +55285,36 @@ var Bubble = React.createClass({displayName: "Bubble",
     text: React.PropTypes.string
   },
 
+  getInitialState: function () {
+    return {
+      text: this.props.text
+    };
+  },
+
+  setBubbleText: function (event) {
+    event.preventDefault();
+    var value = event.target.value;
+    return this.setState({ text: value });
+  },
+
+  saveBubble: function(event) {
+    event.preventDefault();
+    var value = event.target.value;
+    ComicActions.modifyBubble(this.props.id, value);
+  },
+
     // bubble needs a dropdown to select character, input textbox, buttons to modify and delete
     render: function() {
       var vm = this;
       return (
           React.createElement("div", {className: "bubbles"}, 
-              React.createElement("input", {style: { width: "60%", display: "block", margin: "15px auto"}, placeholder: "Enter text here", value: this.props.text})
+              React.createElement("input", {style: { width: "60%", display: "block", margin: "15px auto"}, 
+                    type: "text", 
+                    placeholder: "Enter text here", 
+                    value: this.state.text, 
+                    onChange: this.setBubbleText, 
+                    onBlur: this.saveBubble}
+              )
           )
         );
     }
@@ -55330,6 +55357,7 @@ var ComicPage = React.createClass({displayName: "ComicPage",
 
 	_onChange: function () {
 		var bubbles = ComicStore.getBubbles();
+		console.log(bubbles);
 		this.setState({ bubbles: bubbles });
 	},
 
@@ -55483,7 +55511,9 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 		_bubbles.remove(bubble);
 	},
 
-	modifyBubble: function (bubble) {
+	modifyBubble: function (bubbleId, bubbleText) {
+		var bubbleIndex = _.findIndex(_bubbles, { id: bubbleId });
+		_bubbles[bubbleIndex].text = bubbleText;
 		return;
 	},
 
@@ -55500,6 +55530,10 @@ Dispatcher.register(function(action){
 			break;
 		case ActionTypes.REMOVE_BUBBLE:
 			ComicStore.removeBubble(action.bubble);
+			ComicStore.emitChange();
+			break; 
+		case ActionTypes.MODIFY_BUBBLE:
+			ComicStore.modifyBubble(action.bubble.id, action.bubble.text);
 			ComicStore.emitChange();
 			break; 
 		default: 
