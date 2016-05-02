@@ -6,9 +6,9 @@ ComicGen is a React application using Flux architecture that converts user-suppl
 
 ## Tasks
 ### Create Speech Bubbles
-- [ ] Fill in text
-- [ ] Add new speech bubble
-- [ ] Modify bubbles
+- [x] Fill in text
+- [x] Add new speech bubble
+- [x] Modify bubbles
 - [ ] Delete bubble
 - [ ] Move bubble
 - [ ] Assign 'character' to bubble with dropdown selection
