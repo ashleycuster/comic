@@ -58926,10 +58926,115 @@ var ComicActions = {
 
 module.exports = ComicActions; 
 
-},{"../constants/actionTypes":343,"../dispatcher/appDispatcher":344}],339:[function(require,module,exports){
+},{"../constants/actionTypes":346,"../dispatcher/appDispatcher":347}],339:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var Header = React.createClass({displayName: "Header",
+	render: function () {
+		return (
+				React.createElement("header", null, 
+			        React.createElement("div", {className: "container"}, 
+			            React.createElement("div", {className: "intro-text"}, 
+			                React.createElement("div", {className: "intro-lead-in"}, "Turn Your Conversation into a Comic Strip!"), 
+			                React.createElement("div", {className: "intro-heading"}, "Comic Generator"), 
+			                React.createElement("a", {href: "#services", className: "page-scroll btn btn-xl"}, "Get Started")
+			            )
+			        )
+			    )
+			);
+	}
+});
+
+module.exports = Header;
+
+},{"react":313}],340:[function(require,module,exports){
+"use strict"; 
+
+var React = require('react');
+
+var Navigation = React.createClass({displayName: "Navigation",
+	render: function () {
+		return (
+			React.createElement("nav", {className: "navbar navbar-default navbar-fixed-top"}, 
+				React.createElement("div", {className: "container"}, 
+					React.createElement("div", {className: "navbar-header page-scroll"}, 
+						React.createElement("button", {type: "button", className: "navbar-toggle", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1"}, 
+							React.createElement("span", {className: "sr-only"}, "Toggle navigation"), 
+							React.createElement("span", {className: "icon-bar"}), 
+							React.createElement("span", {className: "icon-bar"}), 
+							React.createElement("span", {className: "icon-bar"})
+						), 
+						React.createElement("a", {className: "navbar-brand page-scroll", href: "#page-top"}, "Comic Generator")
+				    ), 
+			            React.createElement("div", {className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1"}, 
+			                React.createElement("ul", {className: "nav navbar-nav navbar-right"}, 
+			                    React.createElement("li", {className: "hidden"}, 
+			                        React.createElement("a", {href: "#page-top"})
+			                    ), 
+			                    React.createElement("li", null, 
+			                        React.createElement("a", {className: "page-scroll", href: "#services"}, "Services")
+			                    ), 
+			                    React.createElement("li", null, 
+			                        React.createElement("a", {className: "page-scroll", href: "#portfolio"}, "Portfolio")
+			                    ), 
+			                    React.createElement("li", null, 
+			                        React.createElement("a", {className: "page-scroll", href: "#about"}, "About")
+			                    ), 
+			                    React.createElement("li", null, 
+			                        React.createElement("a", {className: "page-scroll", href: "#team"}, "Team")
+			                    ), 
+			                    React.createElement("li", null, 
+			                        React.createElement("a", {className: "page-scroll", href: "#contact"}, "Contact")
+			                    )
+			                )
+			            )
+			        )
+			    )
+			);
+	}
+});
+
+module.exports = Navigation;
+
+},{"react":313}],341:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var Section = React.createClass({displayName: "Section",
+	propTypes: {
+		title: React.PropTypes.string.isRequired,
+		subheading: React.PropTypes.string.isRequired
+	},
+
+	render: function () {
+		return (
+				    React.createElement("section", {id: "services"}, 
+				        React.createElement("div", {className: "container"}, 
+				            React.createElement("div", {className: "row"}, 
+				                React.createElement("div", {className: "col-lg-12 text-center"}, 
+				                    React.createElement("h2", {className: "section-heading"}, this.props.title), 
+				                    React.createElement("h3", {className: "section-subheading text-muted"}, this.props.subheading)
+				                )
+				            ), 
+				            this.props.children
+				        )
+				    )
+			);
+	}
+});
+
+module.exports = Section;
+
+},{"react":313}],342:[function(require,module,exports){
 /*eslint-disable strict */
 
-var React = require('react'); 
+var React = require('react');
+var Navigation = require('./agencyBootstrap/navigation');
+var Header = require('./agencyBootstrap/header');
+var Section = require('./agencyBootstrap/section');
 
 var RouteHandler = require('react-router').RouteHandler;
 
@@ -58937,9 +59042,10 @@ var App = React.createClass({displayName: "App",
 	render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement("div", {className: "container-fluid", id: "content"}, 
-					React.createElement(RouteHandler, null)
-				)
+			   React.createElement(Navigation, null), 
+			    React.createElement(Header, null), 
+			    React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}
+			    )
 			)
 		); 
 	}	
@@ -58947,7 +59053,11 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App; 
 
-},{"react":313,"react-router":142}],340:[function(require,module,exports){
+// <div className="container-fluid" id="content">
+// 					<RouteHandler/>
+// 				</div>
+
+},{"./agencyBootstrap/header":339,"./agencyBootstrap/navigation":340,"./agencyBootstrap/section":341,"react":313,"react-router":142}],343:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -58998,7 +59108,7 @@ var Bubble = React.createClass({displayName: "Bubble",
 
 module.exports = Bubble;
 
-},{"../../actions/comicActions":338,"react":313}],341:[function(require,module,exports){
+},{"../../actions/comicActions":338,"react":313}],344:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -59071,7 +59181,7 @@ var ComicPage = React.createClass({displayName: "ComicPage",
 
 module.exports = ComicPage;
 
-},{"../../actions/comicActions":338,"../../stores/ComicStore":347,"./bubble":340,"node-uuid":101,"react":313,"react-router":142}],342:[function(require,module,exports){
+},{"../../actions/comicActions":338,"../../stores/ComicStore":350,"./bubble":343,"node-uuid":101,"react":313,"react-router":142}],345:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59091,7 +59201,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage; 
 
-},{"react":313,"react-router":142}],343:[function(require,module,exports){
+},{"react":313,"react-router":142}],346:[function(require,module,exports){
 "use strict"; 
 
 module.exports = { 
@@ -59100,7 +59210,7 @@ module.exports = {
 	MODIFY_BUBBLE: "MODIFY_BUBBLE"
 };
 
-},{}],344:[function(require,module,exports){
+},{}],347:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -59118,7 +59228,7 @@ var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":85}],345:[function(require,module,exports){
+},{"flux":85}],348:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59130,28 +59240,30 @@ Router.run(routes, function(Handler) {
 	ReactDOM.render(React.createElement(Handler, null), document.getElementById('app')); 
 });
 
-},{"./routes":346,"react":313,"react-dom":117,"react-router":142}],346:[function(require,module,exports){
-"use strict"; 
+},{"./routes":349,"react":313,"react-dom":117,"react-router":142}],349:[function(require,module,exports){
+"use strict";
 
-var React = require('react'); 
+var React = require('react');
 
-var Router = require('react-router'); 
-var DefaultRoute = Router.DefaultRoute; 
-var Route = Router.Route; 
-var NotFoundRoute = Router.NotFoundRoute; 
-var Redirect = Router.Redirect; 
+var Router = require('react-router');
+var DefaultRoute = Router.DefaultRoute;
+var Route = Router.Route;
+var NotFoundRoute = Router.NotFoundRoute;
+var Redirect = Router.Redirect;
 
-var routes = (
-	React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
-		React.createElement(DefaultRoute, {handler: require('./components/comic/comicPage')}), 
-		React.createElement(Route, {name: "comic", handler: require('./components/comic/comicPage')}), 
-		React.createElement(NotFoundRoute, {handler: require('./components/notFoundPage')})
-	)
+var routes = ( React.createElement(Route, {name: "app", 
+    path: "/", 
+    handler:  require('./components/app') }, 
+    React.createElement(DefaultRoute, {handler:  require('./components/comic/comicPage') }
+    ), " ", React.createElement(Route, {name: "comic", 
+    handler:  require('./components/comic/comicPage') }
+    ), " ", React.createElement(NotFoundRoute, {handler:  require('./components/notFoundPage') }
+    ), " ")
 );
 
-module.exports = routes; 
+module.exports = routes;
 
-},{"./components/app":339,"./components/comic/comicPage":341,"./components/notFoundPage":342,"react":313,"react-router":142}],347:[function(require,module,exports){
+},{"./components/app":342,"./components/comic/comicPage":344,"./components/notFoundPage":345,"react":313,"react-router":142}],350:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -59219,4 +59331,4 @@ Dispatcher.register(function(action){
 
 module.exports = ComicStore; 
 
-},{"../constants/actionTypes":343,"../dispatcher/appDispatcher":344,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[345]);
+},{"../constants/actionTypes":346,"../dispatcher/appDispatcher":347,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[348]);

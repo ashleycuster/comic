@@ -211,43 +211,6 @@ button.toast-close-button {
   }
 }
 
-body {
-	font-family: 'Brandon Grotesque',sans-serif;
-}
-
-.gameTable {
-	float: left;
-	margin: 10px;
-	height: 300px;
-	width: 70%;
-	border-style: solid;
-	border-color: #aaaaaa;
-	background-color: #aaaaaa;
-	border-radius: 25px;
-	padding: 2px;
-}
-
-.card {
-	height: 80%;
-	width: 17%;
-	margin: 10px;
-	border-style: solid; 
-	border-color: #ffee58;
-	float: left;
-	border-radius: 25px;
-}
-
-.cardInfo {
-	text-align: center;
-	margin: 5px;
-}
-
-.cardAction {
-	margin-bottom: 10px;
-	cursor: pointer;
-	text-align: center;
-}
-
 /*!
  * Agency v1.0.7 (http://startbootstrap.com/template-overviews/agency)
  * Copyright 2013-2016 Start Bootstrap
@@ -474,7 +437,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
-  background-image: url('../img/header-bg.jpg');
+  background-image: url('../images/puppies.jpg');
   background-repeat: none;
   background-attachment: scroll;
   background-position: center center;
