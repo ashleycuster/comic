@@ -2,7 +2,12 @@
 
 var React = require('react');
 var Router = require('react-router'); 
+var Navigation = require('../agencyBootstrap/navigation');
+var Header = require('../agencyBootstrap/header');
+var Section = require('../agencyBootstrap/section');
+var Footer = require('../agencyBootstrap/footer');
 var Bubble = require('./bubble');
+
 var ComicStore = require('../../stores/ComicStore');
 var ComicActions = require('../../actions/comicActions');
 var uuid = require('node-uuid');
@@ -58,11 +63,15 @@ var ComicPage = React.createClass({
     render: function () {
 		return (
 			<div>
-				<h1 style={{ textAlign: "center", color: "#c56395" }}>COMIC GENERATOR</h1>
-				<div className="bubbleContainer" style={{ display: "block", marginLeft: "auto", marginRight: "auto", marginTop: 100 }}>
-					{this.state.bubbles.map(this.createBubble, this)}
-					<p onClick={this.addBubble} style={{ textAlign: 'center', cursor: 'pointer'}}>+ Add Speech Bubble</p>
-				</div>
+				<Navigation />
+			    <Header />
+			    <Section title="Speech Bubbles" subheading="Fill in speech bubbles with your text">
+			    	<div className="bubbleContainer" style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
+						{this.state.bubbles.map(this.createBubble, this)}
+						<p onClick={this.addBubble} style={{ textAlign: 'center', cursor: 'pointer'}}>+ Add Speech Bubble</p>
+					</div>
+			    </Section>
+			    <Footer />
 			</div>
 			);
 	}

@@ -58926,7 +58926,48 @@ var ComicActions = {
 
 module.exports = ComicActions; 
 
-},{"../constants/actionTypes":346,"../dispatcher/appDispatcher":347}],339:[function(require,module,exports){
+},{"../constants/actionTypes":347,"../dispatcher/appDispatcher":348}],339:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var Footer = React.createClass({displayName: "Footer",
+	render: function () {
+		return (
+				React.createElement("footer", null, 
+			        React.createElement("div", {className: "container"}, 
+			            React.createElement("div", {className: "row"}, 
+			                React.createElement("div", {className: "col-md-4"}, 
+			                    React.createElement("span", {className: "copyright"}, "Copyright © Your Website 2014")
+			                ), 
+			                React.createElement("div", {className: "col-md-4"}, 
+			                    React.createElement("ul", {className: "list-inline social-buttons"}, 
+			                        React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-twitter"}))
+			                        ), 
+			                        React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-facebook"}))
+			                        ), 
+			                        React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-linkedin"}))
+			                        )
+			                    )
+			                ), 
+			                React.createElement("div", {className: "col-md-4"}, 
+			                    React.createElement("ul", {className: "list-inline quicklinks"}, 
+			                        React.createElement("li", null, React.createElement("a", {href: "#"}, "Privacy Policy")
+			                        ), 
+			                        React.createElement("li", null, React.createElement("a", {href: "#"}, "Terms of Use")
+			                        )
+			                    )
+			                )
+			            )
+			        )
+			    )
+			);
+	}
+});
+
+module.exports = Footer;
+
+},{"react":313}],340:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -58949,7 +58990,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":313}],340:[function(require,module,exports){
+},{"react":313}],341:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react');
@@ -58998,7 +59039,7 @@ var Navigation = React.createClass({displayName: "Navigation",
 
 module.exports = Navigation;
 
-},{"react":313}],341:[function(require,module,exports){
+},{"react":313}],342:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -59028,25 +59069,18 @@ var Section = React.createClass({displayName: "Section",
 
 module.exports = Section;
 
-},{"react":313}],342:[function(require,module,exports){
+},{"react":313}],343:[function(require,module,exports){
 /*eslint-disable strict */
 
 var React = require('react');
-var Navigation = require('./agencyBootstrap/navigation');
-var Header = require('./agencyBootstrap/header');
-var Section = require('./agencyBootstrap/section');
+var ComicPage = require('./comic/comicPage');
 
 var RouteHandler = require('react-router').RouteHandler;
 
 var App = React.createClass({displayName: "App",
 	render: function () {
 		return (
-			React.createElement("div", null, 
-			   React.createElement(Navigation, null), 
-			    React.createElement(Header, null), 
-			    React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}
-			    )
-			)
+			React.createElement(ComicPage, null)
 		); 
 	}	
 });
@@ -59057,7 +59091,7 @@ module.exports = App;
 // 					<RouteHandler/>
 // 				</div>
 
-},{"./agencyBootstrap/header":339,"./agencyBootstrap/navigation":340,"./agencyBootstrap/section":341,"react":313,"react-router":142}],343:[function(require,module,exports){
+},{"./comic/comicPage":345,"react":313,"react-router":142}],344:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59108,12 +59142,17 @@ var Bubble = React.createClass({displayName: "Bubble",
 
 module.exports = Bubble;
 
-},{"../../actions/comicActions":338,"react":313}],344:[function(require,module,exports){
+},{"../../actions/comicActions":338,"react":313}],345:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
 var Router = require('react-router'); 
+var Navigation = require('../agencyBootstrap/navigation');
+var Header = require('../agencyBootstrap/header');
+var Section = require('../agencyBootstrap/section');
+var Footer = require('../agencyBootstrap/footer');
 var Bubble = require('./bubble');
+
 var ComicStore = require('../../stores/ComicStore');
 var ComicActions = require('../../actions/comicActions');
 var uuid = require('node-uuid');
@@ -59169,11 +59208,15 @@ var ComicPage = React.createClass({displayName: "ComicPage",
     render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement("h1", {style: { textAlign: "center", color: "#c56395"}}, "COMIC GENERATOR"), 
-				React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto", marginTop: 100}}, 
-					this.state.bubbles.map(this.createBubble, this), 
-					React.createElement("p", {onClick: this.addBubble, style: { textAlign: 'center', cursor: 'pointer'}}, "+ Add Speech Bubble")
-				)
+				React.createElement(Navigation, null), 
+			    React.createElement(Header, null), 
+			    React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}, 
+			    	React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto"}}, 
+						this.state.bubbles.map(this.createBubble, this), 
+						React.createElement("p", {onClick: this.addBubble, style: { textAlign: 'center', cursor: 'pointer'}}, "+ Add Speech Bubble")
+					)
+			    ), 
+			    React.createElement(Footer, null)
 			)
 			);
 	}
@@ -59181,7 +59224,7 @@ var ComicPage = React.createClass({displayName: "ComicPage",
 
 module.exports = ComicPage;
 
-},{"../../actions/comicActions":338,"../../stores/ComicStore":350,"./bubble":343,"node-uuid":101,"react":313,"react-router":142}],345:[function(require,module,exports){
+},{"../../actions/comicActions":338,"../../stores/ComicStore":351,"../agencyBootstrap/footer":339,"../agencyBootstrap/header":340,"../agencyBootstrap/navigation":341,"../agencyBootstrap/section":342,"./bubble":344,"node-uuid":101,"react":313,"react-router":142}],346:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59201,7 +59244,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage; 
 
-},{"react":313,"react-router":142}],346:[function(require,module,exports){
+},{"react":313,"react-router":142}],347:[function(require,module,exports){
 "use strict"; 
 
 module.exports = { 
@@ -59210,7 +59253,7 @@ module.exports = {
 	MODIFY_BUBBLE: "MODIFY_BUBBLE"
 };
 
-},{}],347:[function(require,module,exports){
+},{}],348:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -59228,7 +59271,7 @@ var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":85}],348:[function(require,module,exports){
+},{"flux":85}],349:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59240,7 +59283,7 @@ Router.run(routes, function(Handler) {
 	ReactDOM.render(React.createElement(Handler, null), document.getElementById('app')); 
 });
 
-},{"./routes":349,"react":313,"react-dom":117,"react-router":142}],349:[function(require,module,exports){
+},{"./routes":350,"react":313,"react-dom":117,"react-router":142}],350:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -59263,7 +59306,7 @@ var routes = ( React.createElement(Route, {name: "app",
 
 module.exports = routes;
 
-},{"./components/app":342,"./components/comic/comicPage":344,"./components/notFoundPage":345,"react":313,"react-router":142}],350:[function(require,module,exports){
+},{"./components/app":343,"./components/comic/comicPage":345,"./components/notFoundPage":346,"react":313,"react-router":142}],351:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -59331,4 +59374,4 @@ Dispatcher.register(function(action){
 
 module.exports = ComicStore; 
 
-},{"../constants/actionTypes":346,"../dispatcher/appDispatcher":347,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[348]);
+},{"../constants/actionTypes":347,"../dispatcher/appDispatcher":348,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[349]);
