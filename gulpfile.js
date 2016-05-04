@@ -19,9 +19,9 @@ var config = {
 		data: './src/data/*',
 		css: [
 			'node_modules/bootstrap/dist/css/bootstrap.min.css', 
-			'node_modules/bootstrap/dist/css/bootstrap-theme.min.css', 
 			'node_modules/toastr/build/toastr.css',
-			'src/styles/cards.css',
+			'src/styles/agency.css',
+			'src/styles/comic.css',
 		],
 		dist: './dist', 
 		mainJs: './src/main.js'

@@ -63,15 +63,15 @@ var ComicPage = React.createClass({
     render: function () {
 		return (
 			<div>
-				<Navigation />
-			    <Header />
-			    <Section title="Speech Bubbles" subheading="Fill in speech bubbles with your text">
-			    	<div className="bubbleContainer" style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
+				<Header/>
+				<Navigation/>
+				<Section title="Speech Bubbles" subheading="Fill in speech bubbles with your text">
+					<div className="bubbleContainer" style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
 						{this.state.bubbles.map(this.createBubble, this)}
 						<p onClick={this.addBubble} style={{ textAlign: 'center', cursor: 'pointer'}}>+ Add Speech Bubble</p>
 					</div>
-			    </Section>
-			    <Footer />
+				</Section>
+				<Footer />
 			</div>
 			);
 	}

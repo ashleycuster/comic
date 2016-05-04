@@ -58934,33 +58934,33 @@ var React = require('react');
 var Footer = React.createClass({displayName: "Footer",
 	render: function () {
 		return (
-				React.createElement("footer", null, 
-			        React.createElement("div", {className: "container"}, 
-			            React.createElement("div", {className: "row"}, 
-			                React.createElement("div", {className: "col-md-4"}, 
-			                    React.createElement("span", {className: "copyright"}, "Copyright © Your Website 2014")
-			                ), 
-			                React.createElement("div", {className: "col-md-4"}, 
-			                    React.createElement("ul", {className: "list-inline social-buttons"}, 
-			                        React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-twitter"}))
-			                        ), 
-			                        React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-facebook"}))
-			                        ), 
-			                        React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-linkedin"}))
-			                        )
-			                    )
-			                ), 
-			                React.createElement("div", {className: "col-md-4"}, 
-			                    React.createElement("ul", {className: "list-inline quicklinks"}, 
-			                        React.createElement("li", null, React.createElement("a", {href: "#"}, "Privacy Policy")
-			                        ), 
-			                        React.createElement("li", null, React.createElement("a", {href: "#"}, "Terms of Use")
-			                        )
-			                    )
-			                )
-			            )
-			        )
-			    )
+			React.createElement("footer", null, 
+				React.createElement("div", {className: "container"}, 
+					React.createElement("div", {className: "row"}, 
+						React.createElement("div", {className: "col-md-4"}, 
+							React.createElement("span", {className: "copyright"}, "Copyright © Your Website 2014")
+						), 
+						React.createElement("div", {className: "col-md-4"}, 
+							React.createElement("ul", {className: "list-inline social-buttons"}, 
+								React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-twitter"}))
+								), 
+								React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-facebook"}))
+								), 
+								React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("i", {className: "fa fa-linkedin"}))
+								)
+							)
+						), 
+						React.createElement("div", {className: "col-md-4"}, 
+							React.createElement("ul", {className: "list-inline quicklinks"}, 
+								React.createElement("li", null, React.createElement("a", {href: "#"}, "Privacy Policy")
+								), 
+								React.createElement("li", null, React.createElement("a", {href: "#"}, "Terms of Use")
+								)
+							)
+						)
+					)
+				)
+			)
 			);
 	}
 });
@@ -58975,15 +58975,17 @@ var React = require('react');
 var Header = React.createClass({displayName: "Header",
 	render: function () {
 		return (
-				React.createElement("header", null, 
-			        React.createElement("div", {className: "container"}, 
-			            React.createElement("div", {className: "intro-text"}, 
-			                React.createElement("div", {className: "intro-lead-in"}, "Turn Your Conversation into a Comic Strip!"), 
-			                React.createElement("div", {className: "intro-heading"}, "Comic Generator"), 
-			                React.createElement("a", {href: "#services", className: "page-scroll btn btn-xl"}, "Get Started")
-			            )
-			        )
-			    )
+			React.createElement("header", null, 
+					React.createElement("div", {style: { width: "100%", height: "100%", backgroundColor: "rgba(243,147,85,0.85)"}}, 
+					React.createElement("div", {className: "container"}, 
+						React.createElement("div", {className: "intro-text"}, 
+							React.createElement("div", {className: "intro-lead-in"}, "Turn Your Conversation into a Comic Strip!"), 
+							React.createElement("div", {className: "intro-heading"}, "Comic Generator"), 
+							React.createElement("a", {href: "#services", className: "page-scroll btn btn-xl"}, "Get Started")
+						)
+					)
+					)
+			)
 			);
 	}
 });
@@ -59008,31 +59010,31 @@ var Navigation = React.createClass({displayName: "Navigation",
 							React.createElement("span", {className: "icon-bar"})
 						), 
 						React.createElement("a", {className: "navbar-brand page-scroll", href: "#page-top"}, "Comic Generator")
-				    ), 
-			            React.createElement("div", {className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1"}, 
-			                React.createElement("ul", {className: "nav navbar-nav navbar-right"}, 
-			                    React.createElement("li", {className: "hidden"}, 
-			                        React.createElement("a", {href: "#page-top"})
-			                    ), 
-			                    React.createElement("li", null, 
-			                        React.createElement("a", {className: "page-scroll", href: "#services"}, "Services")
-			                    ), 
-			                    React.createElement("li", null, 
-			                        React.createElement("a", {className: "page-scroll", href: "#portfolio"}, "Portfolio")
-			                    ), 
-			                    React.createElement("li", null, 
-			                        React.createElement("a", {className: "page-scroll", href: "#about"}, "About")
-			                    ), 
-			                    React.createElement("li", null, 
-			                        React.createElement("a", {className: "page-scroll", href: "#team"}, "Team")
-			                    ), 
-			                    React.createElement("li", null, 
-			                        React.createElement("a", {className: "page-scroll", href: "#contact"}, "Contact")
-			                    )
-			                )
-			            )
-			        )
-			    )
+				), 
+					React.createElement("div", {className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1"}, 
+						React.createElement("ul", {className: "nav navbar-nav navbar-right"}, 
+							React.createElement("li", {className: "hidden"}, 
+								React.createElement("a", {href: "#page-top"})
+							), 
+							React.createElement("li", null, 
+								React.createElement("a", {className: "page-scroll", href: "#services"}, "Services")
+							), 
+							React.createElement("li", null, 
+								React.createElement("a", {className: "page-scroll", href: "#portfolio"}, "Portfolio")
+							), 
+							React.createElement("li", null, 
+								React.createElement("a", {className: "page-scroll", href: "#about"}, "About")
+							), 
+							React.createElement("li", null, 
+								React.createElement("a", {className: "page-scroll", href: "#team"}, "Team")
+							), 
+							React.createElement("li", null, 
+								React.createElement("a", {className: "page-scroll", href: "#contact"}, "Contact")
+							)
+						)
+					)
+				)
+			)
 			);
 	}
 });
@@ -59052,17 +59054,17 @@ var Section = React.createClass({displayName: "Section",
 
 	render: function () {
 		return (
-				    React.createElement("section", {id: "services"}, 
-				        React.createElement("div", {className: "container"}, 
-				            React.createElement("div", {className: "row"}, 
-				                React.createElement("div", {className: "col-lg-12 text-center"}, 
-				                    React.createElement("h2", {className: "section-heading"}, this.props.title), 
-				                    React.createElement("h3", {className: "section-subheading text-muted"}, this.props.subheading)
-				                )
-				            ), 
-				            this.props.children
-				        )
-				    )
+			React.createElement("section", {id: "services"}, 
+				React.createElement("div", {className: "container"}, 
+					React.createElement("div", {className: "row"}, 
+						React.createElement("div", {className: "col-lg-12 text-center"}, 
+							React.createElement("h2", {className: "section-heading"}, this.props.title), 
+							React.createElement("h3", {className: "section-subheading text-muted"}, this.props.subheading)
+						)
+					), 
+					this.props.children
+				)
+			)
 			);
 	}
 });
@@ -59208,15 +59210,15 @@ var ComicPage = React.createClass({displayName: "ComicPage",
     render: function () {
 		return (
 			React.createElement("div", null, 
+				React.createElement(Header, null), 
 				React.createElement(Navigation, null), 
-			    React.createElement(Header, null), 
-			    React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}, 
-			    	React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto"}}, 
+				React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}, 
+					React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto"}}, 
 						this.state.bubbles.map(this.createBubble, this), 
 						React.createElement("p", {onClick: this.addBubble, style: { textAlign: 'center', cursor: 'pointer'}}, "+ Add Speech Bubble")
 					)
-			    ), 
-			    React.createElement(Footer, null)
+				), 
+				React.createElement(Footer, null)
 			)
 			);
 	}

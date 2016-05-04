@@ -38,7 +38,7 @@ The base of this React application is a modification the demo from Cory House's 
 
 Styling Template: [Bootstrap Agency](https://github.com/BlackrockDigital/startbootstrap-agency) 
 
-Photo Credit: [Flickr Creative Commons, localpups, August 11, 2015](https://www.flickr.com/photos/133374862@N02/20318271389/in/photolist-wXsscX-d92zC1-4oSv3n-jrBPg5-eix2LQ-f8Hdwv-7tkK3F-no9r4t-84nnFk-kjRu6B-jRM8jW-hTavHw-grrk9M-5RDcj8-hRfjgL-daGxdK-o3MAV4-dPG232-pm5ADH-qyvNSZ-98PDv6-r3QYPu-7GuhBs-dLreUv-hNtG1B-jD2AAk-p92mNe-fz8LbK-GC3sEW-9TbPhk-fDY5U4-85irtM-nkf9dJ-4frgi1-9S7YPp-4KCvyw-69opSw-fV2BLv-hhY52s-6Kb2KB-smyaAB-e78gqC-9w9CGS-9VvyYt-nLkUnt-pMtZnu-9XFNqm-ipCBAh-6Kf8PW-az2rZC)
+Photo Credit: [Flickr Creative Commons, localpups, August 11, 2015](https://www.flickr.com/photos/simpleinsomnia/12519208655/in/photolist-k5hdz6-5CrBWq-c5MXxq-s9oyzR-53QASZ-gkWdc9-53QBEp-cypRGd-53UPhL-bFdoWz-f2jMrA-75H4GD-kEMkki-bKE4v8-nAVfks-ggyGjs-cDbetL-nww5TT-263Xw6-MVnup-qhq5SH-7JYH8s-sfJj4z-q1n6oc-nePnsz-nMa1bx-7CtqPF-4LfXDP-njx1ic-re56wM-5bMj9Z-pR5rRd-GUjEn-e8fBKx-7CxgGW-6ou387-g5s7f4-8r9Ah3-8xg6Fq-9NDCh4-9ZTsmQ-8g53Pi-zZR8y-9euUpC-7zuDdX-pVTipA-coEvgC-p4gbcT-bAqoxh-dYPK5P/)
 
 ## Running Locally 
 Clone or download this repo, run `npm install` to install node_modules dependencies, run `gulp`. 
