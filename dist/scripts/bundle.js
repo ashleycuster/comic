@@ -59087,17 +59087,19 @@ module.exports = Footer;
 "use strict";
 
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var Header = React.createClass({displayName: "Header",
 	render: function () {
 		return (
-			React.createElement("header", null, 
+			React.createElement("header", {style: { width: "100%"}}, 
 					React.createElement("div", {style: { width: "100%", height: "100%", backgroundColor: "rgba(243,147,85,0.85)"}}, 
 					React.createElement("div", {className: "container"}, 
 						React.createElement("div", {className: "intro-text"}, 
 							React.createElement("div", {className: "intro-lead-in"}, "Turn Your Conversation into a Comic Strip!"), 
 							React.createElement("div", {className: "intro-heading"}, "Comic Generator"), 
-							React.createElement("a", {href: "#services", className: "page-scroll btn btn-xl"}, "Get Started")
+							React.createElement(Link, {to: "bubbles", className: "page-scroll btn btn-xl"}, "Get Started")
 						)
 					)
 					)
@@ -59108,10 +59110,12 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":314}],342:[function(require,module,exports){
+},{"react":314,"react-router":143}],342:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var Navigation = React.createClass({displayName: "Navigation",
 	render: function () {
@@ -59125,27 +59129,21 @@ var Navigation = React.createClass({displayName: "Navigation",
 							React.createElement("span", {className: "icon-bar"}), 
 							React.createElement("span", {className: "icon-bar"})
 						), 
-						React.createElement("a", {className: "navbar-brand page-scroll", href: "#page-top"}, "Comic Generator")
+						React.createElement(Link, {to: "home", className: "navbar-brand page-scroll"}, "Comic Generator")
 				), 
 					React.createElement("div", {className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1"}, 
 						React.createElement("ul", {className: "nav navbar-nav navbar-right"}, 
-							React.createElement("li", {className: "hidden"}, 
-								React.createElement("a", {href: "#page-top"})
+							React.createElement("li", null, 
+								React.createElement(Link, {to: "bubbles"}, "Conversation")
 							), 
 							React.createElement("li", null, 
-								React.createElement("a", {className: "page-scroll", href: "#services"}, "Services")
+								React.createElement(Link, {to: "bubbles"}, "Characters")
 							), 
 							React.createElement("li", null, 
-								React.createElement("a", {className: "page-scroll", href: "#portfolio"}, "Portfolio")
+								React.createElement(Link, {to: "bubbles"}, "Panels")
 							), 
 							React.createElement("li", null, 
-								React.createElement("a", {className: "page-scroll", href: "#about"}, "About")
-							), 
-							React.createElement("li", null, 
-								React.createElement("a", {className: "page-scroll", href: "#team"}, "Team")
-							), 
-							React.createElement("li", null, 
-								React.createElement("a", {className: "page-scroll", href: "#contact"}, "Contact")
+								React.createElement(Link, {to: "bubbles"}, "Strip")
 							)
 						)
 					)
@@ -59157,7 +59155,7 @@ var Navigation = React.createClass({displayName: "Navigation",
 
 module.exports = Navigation;
 
-},{"react":314}],343:[function(require,module,exports){
+},{"react":314,"react-router":143}],343:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -59191,14 +59189,19 @@ module.exports = Section;
 /*eslint-disable strict */
 
 var React = require('react');
-var ComicPage = require('./comic/comicPage');
+var Navigation = require('./agencyBootstrap/navigation');
 
 var RouteHandler = require('react-router').RouteHandler;
 
 var App = React.createClass({displayName: "App",
 	render: function () {
 		return (
-			React.createElement(ComicPage, null)
+			React.createElement("div", null, 
+				React.createElement(Navigation, null), 
+				React.createElement("div", null, 
+					React.createElement(RouteHandler, null)
+				)
+			)
 		); 
 	}	
 });
@@ -59209,7 +59212,7 @@ module.exports = App;
 // 					<RouteHandler/>
 // 				</div>
 
-},{"./comic/comicPage":346,"react":314,"react-router":143}],345:[function(require,module,exports){
+},{"./agencyBootstrap/navigation":342,"react":314,"react-router":143}],345:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59338,8 +59341,6 @@ var ComicPage = React.createClass({displayName: "ComicPage",
     render: function () {
 		return (
 			React.createElement("div", null, 
-				React.createElement(Header, null), 
-				React.createElement(Navigation, null), 
 				React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}, 
 					React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto"}}, 
 						this.state.bubbles.map(this.createBubble, this), 
@@ -59414,29 +59415,28 @@ Router.run(routes, function(Handler) {
 });
 
 },{"./routes":351,"react":314,"react-dom":117,"react-router":143}],351:[function(require,module,exports){
-"use strict";
+"use strict"; 
 
-var React = require('react');
+var React = require('react'); 
 
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Route = Router.Route;
-var NotFoundRoute = Router.NotFoundRoute;
-var Redirect = Router.Redirect;
+var Router = require('react-router'); 
+var DefaultRoute = Router.DefaultRoute; 
+var Route = Router.Route; 
+var NotFoundRoute = Router.NotFoundRoute; 
+var Redirect = Router.Redirect; 
 
-var routes = ( React.createElement(Route, {name: "app", 
-    path: "/", 
-    handler:  require('./components/app') }, 
-    React.createElement(DefaultRoute, {handler:  require('./components/comic/comicPage') }
-    ), " ", React.createElement(Route, {name: "comic", 
-    handler:  require('./components/comic/comicPage') }
-    ), " ", React.createElement(NotFoundRoute, {handler:  require('./components/notFoundPage') }
-    ), " ")
+var routes = (
+	React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
+		React.createElement(DefaultRoute, {handler: require('./components/agencyBootstrap/header')}), 
+		React.createElement(Route, {name: "home", handler: require('./components/agencyBootstrap/header')}), 
+		React.createElement(Route, {name: "bubbles", handler: require('./components/comic/comicPage')}), 
+		React.createElement(NotFoundRoute, {handler: require('./components/notFoundPage')})
+	)
 );
 
-module.exports = routes;
+module.exports = routes; 
 
-},{"./components/app":344,"./components/comic/comicPage":346,"./components/notFoundPage":347,"react":314,"react-router":143}],352:[function(require,module,exports){
+},{"./components/agencyBootstrap/header":341,"./components/app":344,"./components/comic/comicPage":346,"./components/notFoundPage":347,"react":314,"react-router":143}],352:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 

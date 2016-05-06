@@ -63,8 +63,6 @@ var ComicPage = React.createClass({
     render: function () {
 		return (
 			<div>
-				<Header/>
-				<Navigation/>
 				<Section title="Speech Bubbles" subheading="Fill in speech bubbles with your text">
 					<div className="bubbleContainer" style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
 						{this.state.bubbles.map(this.createBubble, this)}

@@ -1,14 +1,19 @@
 /*eslint-disable strict */
 
 var React = require('react');
-var ComicPage = require('./comic/comicPage');
+var Navigation = require('./agencyBootstrap/navigation');
 
 var RouteHandler = require('react-router').RouteHandler;
 
 var App = React.createClass({
 	render: function () {
 		return (
-			<ComicPage />
+			<div> 
+				<Navigation />
+				<div>
+					<RouteHandler/>
+				</div>
+			</div>
 		); 
 	}	
 });
