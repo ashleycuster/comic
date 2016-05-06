@@ -20,6 +20,7 @@ var config = {
 		css: [
 			'node_modules/bootstrap/dist/css/bootstrap.min.css', 
 			'node_modules/toastr/build/toastr.css',
+			'node_modules/font-awesome/font-awesome.min.css',
 			'src/styles/agency.css',
 			'src/styles/comic.css',
 		],

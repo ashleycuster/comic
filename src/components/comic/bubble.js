@@ -1,13 +1,14 @@
 "use strict"; 
 
 var React = require('react'); 
+var FontAwesome = require('react-fontawesome');
 var ComicActions = require('../../actions/comicActions');
 
 
 var Bubble = React.createClass({
   propTypes: {
     id: React.PropTypes.string.isRequired,
-    character: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string,
     text: React.PropTypes.string
   },
 
@@ -34,13 +35,24 @@ var Bubble = React.createClass({
       var vm = this;
       return (
           <div className="bubbles">
-              <input style={{ width: "60%", display: "block", margin: "15px auto" }}
+            <span style={{ width: "80%", display: "block", margin: "10px auto", padding: "0 auto" }}>
+              <input style={{ width: "20%", display: "inline", marginRight: 15 }}
+                      type="text"
+                      maxLength="50"
+                      placeholder="Name"
+                      value="">
+              </input>
+              <input style={{ width: "60%", display: "inline", marginRight: 15 }}
                     type="text" 
-                    placeholder="Enter text here" 
+                    maxLength="50"
+                    placeholder="Words" 
                     value={this.state.text}
                     onChange={this.setBubbleText}
                     onBlur={this.saveBubble}>
               </input>
+              <FontAwesome name='arrows-v' style={{ marginRight: 10 }} />
+              <FontAwesome name='minus-circle' />
+            </span>
           </div>
         );
     }
