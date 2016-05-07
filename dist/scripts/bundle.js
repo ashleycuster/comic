@@ -59022,18 +59022,21 @@ var ComicActions = {
 		});
 	},
 
-	removeBubble: function (bubble) {
+	removeBubble: function (id) {
 		Dispatcher.dispatch({
 			actionType: ActionTypes.REMOVE_BUBBLE,
-			bubble: bubble
+			bubble: {
+				id: id
+			}
 		});
 	},
 
-	modifyBubble: function (id, text) {
+	modifyBubble: function (id, name, text) {
 		Dispatcher.dispatch({
 			actionType: ActionTypes.MODIFY_BUBBLE,
 			bubble: {
 				id: id, 
+				name: name,
 				text: text
 			}
 		});
@@ -59229,7 +59232,8 @@ var Bubble = React.createClass({displayName: "Bubble",
 
   getInitialState: function () {
     return {
-      text: this.props.text
+      text: this.props.text,
+      name: this.props.name
     };
   },
 
@@ -59239,10 +59243,19 @@ var Bubble = React.createClass({displayName: "Bubble",
     return this.setState({ text: value });
   },
 
-  saveBubble: function(event) {
+  setBubbleName: function (event) {
     event.preventDefault();
     var value = event.target.value;
-    ComicActions.modifyBubble(this.props.id, value);
+    return this.setState({ name: value });
+  },
+
+  saveBubble: function(event) {
+    event.preventDefault();
+    ComicActions.modifyBubble(this.props.id, this.state.name, this.state.text);
+  },
+
+  removeBubble: function () {
+    ComicActions.removeBubble(this.props.id);
   },
 
     // bubble needs a dropdown to select character, input textbox, buttons to modify and delete
@@ -59250,23 +59263,24 @@ var Bubble = React.createClass({displayName: "Bubble",
       var vm = this;
       return (
           React.createElement("div", {className: "bubbles"}, 
-            React.createElement("span", {style: { width: "80%", display: "block", margin: "10px auto", padding: "0 auto"}}, 
+            React.createElement("span", {style: { width: "80%", display: "block", margin: "10px auto", padding: "0 auto"}, 
+              onBlur: this.saveBubble}, 
               React.createElement("input", {style: { width: "20%", display: "inline", marginRight: 15}, 
                       type: "text", 
                       maxLength: "50", 
                       placeholder: "Name", 
-                      value: ""}
+                      value: this.state.name, 
+                      onChange: this.setBubbleName}
               ), 
               React.createElement("input", {style: { width: "60%", display: "inline", marginRight: 15}, 
                     type: "text", 
                     maxLength: "50", 
                     placeholder: "Words", 
                     value: this.state.text, 
-                    onChange: this.setBubbleText, 
-                    onBlur: this.saveBubble}
+                    onChange: this.setBubbleText}
               ), 
               React.createElement(FontAwesome, {name: "arrows-v", style: { marginRight: 10}}), 
-              React.createElement(FontAwesome, {name: "minus-circle"})
+              React.createElement(FontAwesome, {name: "minus-circle", onClick: this.removeBubble, style: { cursor: 'pointer'}})
             )
           )
         );
@@ -59334,7 +59348,8 @@ var ComicPage = React.createClass({displayName: "ComicPage",
 					key: uuid.v4(), 
 					character: bubbleObj.character, 
 					id: bubbleObj.id, 
-					text: bubbleObj.text})
+					text: bubbleObj.text, 
+					name: bubbleObj.name})
 			);
 	},
 
@@ -59448,7 +59463,7 @@ var uuid = require('node-uuid');
 var CHANGE_EVENT = 'change'; 
 
 var _initialId = uuid.v4();
-var _bubbles = [{ id: _initialId, character: 1, text: null }];
+var _bubbles = [{ id: _initialId, name: null, text: null }];
 
 var ComicStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -59465,16 +59480,19 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 
 	addBubble: function () {
 		var id = uuid.v4();
-		_bubbles.push({ id: id, character: 1, text: null });
+		_bubbles.push({ id: id, character: null, text: null });
 	}, 
 
-	removeBubble: function (bubble) {
-		_bubbles.remove(bubble);
+	removeBubble: function (bubbleId) {
+		_.remove(_bubbles, function (obj) {
+			return obj.id === bubbleId;
+		});
 	},
 
-	modifyBubble: function (bubbleId, bubbleText) {
+	modifyBubble: function (bubbleId, bubbleName, bubbleText) {
 		var bubbleIndex = _.findIndex(_bubbles, { id: bubbleId });
 		_bubbles[bubbleIndex].text = bubbleText;
+		_bubbles[bubbleIndex].name = bubbleName;
 		return;
 	},
 
@@ -59490,11 +59508,11 @@ Dispatcher.register(function(action){
 			ComicStore.emitChange();
 			break;
 		case ActionTypes.REMOVE_BUBBLE:
-			ComicStore.removeBubble(action.bubble);
+			ComicStore.removeBubble(action.bubble.id);
 			ComicStore.emitChange();
 			break; 
 		case ActionTypes.MODIFY_BUBBLE:
-			ComicStore.modifyBubble(action.bubble.id, action.bubble.text);
+			ComicStore.modifyBubble(action.bubble.id, action.bubble.name, action.bubble.text);
 			ComicStore.emitChange();
 			break; 
 		default: 

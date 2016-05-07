@@ -9,7 +9,7 @@ var uuid = require('node-uuid');
 var CHANGE_EVENT = 'change'; 
 
 var _initialId = uuid.v4();
-var _bubbles = [{ id: _initialId, character: 1, text: null }];
+var _bubbles = [{ id: _initialId, name: null, text: null }];
 
 var ComicStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -26,16 +26,19 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 
 	addBubble: function () {
 		var id = uuid.v4();
-		_bubbles.push({ id: id, character: 1, text: null });
+		_bubbles.push({ id: id, character: null, text: null });
 	}, 
 
-	removeBubble: function (bubble) {
-		_bubbles.remove(bubble);
+	removeBubble: function (bubbleId) {
+		_.remove(_bubbles, function (obj) {
+			return obj.id === bubbleId;
+		});
 	},
 
-	modifyBubble: function (bubbleId, bubbleText) {
+	modifyBubble: function (bubbleId, bubbleName, bubbleText) {
 		var bubbleIndex = _.findIndex(_bubbles, { id: bubbleId });
 		_bubbles[bubbleIndex].text = bubbleText;
+		_bubbles[bubbleIndex].name = bubbleName;
 		return;
 	},
 
@@ -51,11 +54,11 @@ Dispatcher.register(function(action){
 			ComicStore.emitChange();
 			break;
 		case ActionTypes.REMOVE_BUBBLE:
-			ComicStore.removeBubble(action.bubble);
+			ComicStore.removeBubble(action.bubble.id);
 			ComicStore.emitChange();
 			break; 
 		case ActionTypes.MODIFY_BUBBLE:
-			ComicStore.modifyBubble(action.bubble.id, action.bubble.text);
+			ComicStore.modifyBubble(action.bubble.id, action.bubble.name, action.bubble.text);
 			ComicStore.emitChange();
 			break; 
 		default: 

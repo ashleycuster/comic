@@ -11,18 +11,21 @@ var ComicActions = {
 		});
 	},
 
-	removeBubble: function (bubble) {
+	removeBubble: function (id) {
 		Dispatcher.dispatch({
 			actionType: ActionTypes.REMOVE_BUBBLE,
-			bubble: bubble
+			bubble: {
+				id: id
+			}
 		});
 	},
 
-	modifyBubble: function (id, text) {
+	modifyBubble: function (id, name, text) {
 		Dispatcher.dispatch({
 			actionType: ActionTypes.MODIFY_BUBBLE,
 			bubble: {
 				id: id, 
+				name: name,
 				text: text
 			}
 		});

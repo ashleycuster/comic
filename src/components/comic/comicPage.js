@@ -56,7 +56,8 @@ var ComicPage = React.createClass({
 					key={uuid.v4()}
 					character={bubbleObj.character}
 					id={bubbleObj.id}
-					text={bubbleObj.text}></Bubble>
+					text={bubbleObj.text}
+					name={bubbleObj.name}></Bubble>
 			);
 	},
 
