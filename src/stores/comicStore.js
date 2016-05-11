@@ -10,6 +10,7 @@ var CHANGE_EVENT = 'change';
 
 var _initialId = uuid.v4();
 var _bubbles = [{ id: _initialId, name: null, text: null }];
+var _characters = [];
 
 var ComicStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -44,6 +45,10 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 
 	getBubbles: function () {
 		return _bubbles;
+	}, 
+
+	getCharacters: function () {
+		return _characters;
 	}
 });
 

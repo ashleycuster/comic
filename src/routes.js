@@ -12,7 +12,8 @@ var routes = (
 	<Route name="app" path="/" handler={require('./components/app')}> 
 		<DefaultRoute handler={require('./components/agencyBootstrap/header')} />
 		<Route name="home" handler={require('./components/agencyBootstrap/header')} />
-		<Route name="bubbles" handler={require('./components/comic/comicPage')} />
+		<Route name="bubbles" handler={require('./components/conversation/comicPage')} />
+		<Route name="characters" handler={require('./components/characters/characterPage')} />
 		<NotFoundRoute handler={require('./components/notFoundPage')} />
 	</Route>
 );

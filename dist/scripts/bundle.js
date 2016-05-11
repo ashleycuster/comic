@@ -59045,7 +59045,7 @@ var ComicActions = {
 
 module.exports = ComicActions; 
 
-},{"../constants/actionTypes":348,"../dispatcher/appDispatcher":349}],340:[function(require,module,exports){
+},{"../constants/actionTypes":354,"../dispatcher/appDispatcher":355}],340:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -59140,7 +59140,7 @@ var Navigation = React.createClass({displayName: "Navigation",
 								React.createElement(Link, {to: "bubbles"}, "Conversation")
 							), 
 							React.createElement("li", null, 
-								React.createElement(Link, {to: "bubbles"}, "Characters")
+								React.createElement(Link, {to: "characters"}, "Characters")
 							), 
 							React.createElement("li", null, 
 								React.createElement(Link, {to: "bubbles"}, "Panels")
@@ -59223,6 +59223,326 @@ var FontAwesome = require('react-fontawesome');
 var ComicActions = require('../../actions/comicActions');
 
 
+var Body = React.createClass({displayName: "Body",
+  propTypes: {
+  },
+
+  getInitialState: function () {
+    return {
+    };
+  },
+
+  // setBubbleText: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ text: value });
+  // },
+
+  // setBubbleName: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ name: value });
+  // },
+
+  // saveBubble: function(event) {
+  //   event.preventDefault();
+  //   ComicActions.modifyBubble(this.props.id, this.state.name, this.state.text);
+  // },
+
+  // removeBubble: function () {
+  //   ComicActions.removeBubble(this.props.id);
+  // },
+
+    render: function() {
+      return (
+          React.createElement("div", {className: "body"}
+          )
+        );
+    }
+});
+
+module.exports = Body;
+
+},{"../../actions/comicActions":339,"react":314,"react-fontawesome":118}],346:[function(require,module,exports){
+"use strict"; 
+
+var React = require('react'); 
+var Body = require('./body');
+var Eyes = require('./eyes');
+var FontAwesome = require('react-fontawesome');
+var ComicActions = require('../../actions/comicActions');
+
+
+var Character = React.createClass({displayName: "Character",
+  propTypes: {
+  },
+
+  getInitialState: function () {
+    return {
+    };
+  },
+
+  // setBubbleText: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ text: value });
+  // },
+
+  // setBubbleName: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ name: value });
+  // },
+
+  // saveBubble: function(event) {
+  //   event.preventDefault();
+  //   ComicActions.modifyBubble(this.props.id, this.state.name, this.state.text);
+  // },
+
+  // removeBubble: function () {
+  //   ComicActions.removeBubble(this.props.id);
+  // },
+
+    render: function() {
+      return (
+          React.createElement("div", {className: "character", style: { display: "inline-block", width: 100}}, 
+            React.createElement(Body, null), 
+            React.createElement(Eyes, null)
+          )
+        );
+    }
+});
+
+module.exports = Character;
+
+},{"../../actions/comicActions":339,"./body":345,"./eyes":349,"react":314,"react-fontawesome":118}],347:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var Router = require('react-router'); 
+var Navigation = require('../agencyBootstrap/navigation');
+var Section = require('../agencyBootstrap/section');
+var Footer = require('../agencyBootstrap/footer');
+var SavedCharacters = require('./savedCharacters');
+var CharacterSelection = require('./characterSelection');
+
+var ComicStore = require('../../stores/ComicStore');
+var ComicActions = require('../../actions/comicActions');
+var uuid = require('node-uuid');
+
+
+
+var CharacterPage = React.createClass({displayName: "CharacterPage",
+	mixins: [
+		Router.Navigation
+	],
+	statics: {
+	},
+
+	getInitialState: function () {
+		return {
+			characters: ComicStore.getCharacters()
+		};
+	},
+
+	componentWillMount: function () {
+		ComicStore.addChangeListener(this._onChange);
+	},
+
+	componentWillUnmount: function () {
+		ComicStore.removeChangeListener(this._onChange); 
+	},
+
+	_onChange: function () {
+		var characters = ComicStore.getCharacters();
+		this.setState({ characters: characters });
+	},
+
+	addBubble: function () {
+		ComicActions.saveCharacter();
+	},
+
+    render: function () {
+		return (
+			React.createElement(Section, {title: "Characters", subheading: "Choose the look of your characters!"}, 
+				React.createElement(SavedCharacters, null), 
+				React.createElement(CharacterSelection, null)
+			)
+			);
+	}
+});
+
+module.exports = CharacterPage;
+
+},{"../../actions/comicActions":339,"../../stores/ComicStore":358,"../agencyBootstrap/footer":340,"../agencyBootstrap/navigation":342,"../agencyBootstrap/section":343,"./characterSelection":348,"./savedCharacters":350,"node-uuid":101,"react":314,"react-router":143}],348:[function(require,module,exports){
+"use strict"; 
+
+var React = require('react'); 
+var Character = require('./character');
+var FontAwesome = require('react-fontawesome');
+var ComicActions = require('../../actions/comicActions');
+
+
+var CharacterSelection = React.createClass({displayName: "CharacterSelection",
+  propTypes: {
+  },
+
+  getInitialState: function () {
+    return {
+    };
+  },
+
+  // setBubbleText: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ text: value });
+  // },
+
+  // setBubbleName: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ name: value });
+  // },
+
+  // saveBubble: function(event) {
+  //   event.preventDefault();
+  //   ComicActions.modifyBubble(this.props.id, this.state.name, this.state.text);
+  // },
+
+  // removeBubble: function () {
+  //   ComicActions.removeBubble(this.props.id);
+  // },
+
+    render: function() {
+      return (
+          React.createElement("div", {className: "characterSelect", style: { textAlign: "center"}}, 
+            React.createElement("span", null, 
+              React.createElement(FontAwesome, {name: "caret-left", style: { cursor: "pointer"}}), 
+              React.createElement(FontAwesome, {name: "caret-left", size: "5x", style: { cursor: "pointer"}}), 
+              React.createElement(Character, null), 
+              React.createElement(FontAwesome, {name: "caret-right", size: "5x", style: { cursor: "pointer"}}), 
+              React.createElement(FontAwesome, {name: "caret-right", style: { cursor: "pointer"}})
+              ), React.createElement("br", null), 
+            React.createElement("button", {className: "btn btn-lg", type: "button"}, "Save Character")
+          )
+        );
+    }
+});
+
+module.exports = CharacterSelection;
+
+},{"../../actions/comicActions":339,"./character":346,"react":314,"react-fontawesome":118}],349:[function(require,module,exports){
+"use strict"; 
+
+var React = require('react'); 
+
+var FontAwesome = require('react-fontawesome');
+var ComicActions = require('../../actions/comicActions');
+
+
+var Eyes = React.createClass({displayName: "Eyes",
+  propTypes: {
+  },
+
+  getInitialState: function () {
+    return {
+    };
+  },
+
+  // setBubbleText: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ text: value });
+  // },
+
+  // setBubbleName: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ name: value });
+  // },
+
+  // saveBubble: function(event) {
+  //   event.preventDefault();
+  //   ComicActions.modifyBubble(this.props.id, this.state.name, this.state.text);
+  // },
+
+  // removeBubble: function () {
+  //   ComicActions.removeBubble(this.props.id);
+  // },
+
+    render: function() {
+      return (
+          React.createElement("div", {className: "eyes"}
+          )
+        );
+    }
+});
+
+module.exports = Eyes;
+
+},{"../../actions/comicActions":339,"react":314,"react-fontawesome":118}],350:[function(require,module,exports){
+"use strict"; 
+
+var React = require('react'); 
+var FontAwesome = require('react-fontawesome');
+var ComicActions = require('../../actions/comicActions');
+
+
+var SavedCharacters = React.createClass({displayName: "SavedCharacters",
+  // propTypes: {
+  //   id: React.PropTypes.string.isRequired,
+  //   name: React.PropTypes.string,
+  //   text: React.PropTypes.string
+  // },
+
+  // getInitialState: function () {
+  //   return {
+  //     text: this.props.text,
+  //     name: this.props.name
+  //   };
+  // },
+
+  // setBubbleText: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ text: value });
+  // },
+
+  // setBubbleName: function (event) {
+  //   event.preventDefault();
+  //   var value = event.target.value;
+  //   return this.setState({ name: value });
+  // },
+
+  // saveBubble: function(event) {
+  //   event.preventDefault();
+  //   ComicActions.modifyBubble(this.props.id, this.state.name, this.state.text);
+  // },
+
+  // removeBubble: function () {
+  //   ComicActions.removeBubble(this.props.id);
+  // },
+
+    // bubble needs a dropdown to select character, input textbox, buttons to modify and delete
+    render: function() {
+      var vm = this;
+      return (
+          React.createElement("div", {className: "savedCharacters"}
+          )
+        );
+    }
+});
+
+module.exports = SavedCharacters;
+
+},{"../../actions/comicActions":339,"react":314,"react-fontawesome":118}],351:[function(require,module,exports){
+"use strict"; 
+
+var React = require('react'); 
+var FontAwesome = require('react-fontawesome');
+var ComicActions = require('../../actions/comicActions');
+
+
 var Bubble = React.createClass({displayName: "Bubble",
   propTypes: {
     id: React.PropTypes.string.isRequired,
@@ -59289,7 +59609,7 @@ var Bubble = React.createClass({displayName: "Bubble",
 
 module.exports = Bubble;
 
-},{"../../actions/comicActions":339,"react":314,"react-fontawesome":118}],346:[function(require,module,exports){
+},{"../../actions/comicActions":339,"react":314,"react-fontawesome":118}],352:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -59357,12 +59677,11 @@ var ComicPage = React.createClass({displayName: "ComicPage",
 		return (
 			React.createElement("div", null, 
 				React.createElement(Section, {title: "Speech Bubbles", subheading: "Fill in speech bubbles with your text"}, 
-					React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto"}}, 
+					React.createElement("div", {className: "bubbleContainer", style: { display: "block", marginLeft: "auto", marginRight: "auto", textAlign: "center"}}, 
 						this.state.bubbles.map(this.createBubble, this), 
 						React.createElement("p", {onClick: this.addBubble, style: { textAlign: 'center', cursor: 'pointer'}}, "+ Add Speech Bubble")
 					)
-				), 
-				React.createElement(Footer, null)
+				)
 			)
 			);
 	}
@@ -59370,7 +59689,7 @@ var ComicPage = React.createClass({displayName: "ComicPage",
 
 module.exports = ComicPage;
 
-},{"../../actions/comicActions":339,"../../stores/ComicStore":352,"../agencyBootstrap/footer":340,"../agencyBootstrap/header":341,"../agencyBootstrap/navigation":342,"../agencyBootstrap/section":343,"./bubble":345,"node-uuid":101,"react":314,"react-router":143}],347:[function(require,module,exports){
+},{"../../actions/comicActions":339,"../../stores/ComicStore":358,"../agencyBootstrap/footer":340,"../agencyBootstrap/header":341,"../agencyBootstrap/navigation":342,"../agencyBootstrap/section":343,"./bubble":351,"node-uuid":101,"react":314,"react-router":143}],353:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59390,7 +59709,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage; 
 
-},{"react":314,"react-router":143}],348:[function(require,module,exports){
+},{"react":314,"react-router":143}],354:[function(require,module,exports){
 "use strict"; 
 
 module.exports = { 
@@ -59399,7 +59718,7 @@ module.exports = {
 	MODIFY_BUBBLE: "MODIFY_BUBBLE"
 };
 
-},{}],349:[function(require,module,exports){
+},{}],355:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -59417,7 +59736,7 @@ var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":85}],350:[function(require,module,exports){
+},{"flux":85}],356:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59429,7 +59748,7 @@ Router.run(routes, function(Handler) {
 	ReactDOM.render(React.createElement(Handler, null), document.getElementById('app')); 
 });
 
-},{"./routes":351,"react":314,"react-dom":117,"react-router":143}],351:[function(require,module,exports){
+},{"./routes":357,"react":314,"react-dom":117,"react-router":143}],357:[function(require,module,exports){
 "use strict"; 
 
 var React = require('react'); 
@@ -59444,14 +59763,15 @@ var routes = (
 	React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
 		React.createElement(DefaultRoute, {handler: require('./components/agencyBootstrap/header')}), 
 		React.createElement(Route, {name: "home", handler: require('./components/agencyBootstrap/header')}), 
-		React.createElement(Route, {name: "bubbles", handler: require('./components/comic/comicPage')}), 
+		React.createElement(Route, {name: "bubbles", handler: require('./components/conversation/comicPage')}), 
+		React.createElement(Route, {name: "characters", handler: require('./components/characters/characterPage')}), 
 		React.createElement(NotFoundRoute, {handler: require('./components/notFoundPage')})
 	)
 );
 
 module.exports = routes; 
 
-},{"./components/agencyBootstrap/header":341,"./components/app":344,"./components/comic/comicPage":346,"./components/notFoundPage":347,"react":314,"react-router":143}],352:[function(require,module,exports){
+},{"./components/agencyBootstrap/header":341,"./components/app":344,"./components/characters/characterPage":347,"./components/conversation/comicPage":352,"./components/notFoundPage":353,"react":314,"react-router":143}],358:[function(require,module,exports){
 "use strict"; 
 
 var Dispatcher = require('../dispatcher/appDispatcher'); 
@@ -59464,6 +59784,7 @@ var CHANGE_EVENT = 'change';
 
 var _initialId = uuid.v4();
 var _bubbles = [{ id: _initialId, name: null, text: null }];
+var _characters = [];
 
 var ComicStore = assign({}, EventEmitter.prototype, {
 	addChangeListener: function (callback) {
@@ -59498,6 +59819,10 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 
 	getBubbles: function () {
 		return _bubbles;
+	}, 
+
+	getCharacters: function () {
+		return _characters;
 	}
 });
 
@@ -59522,4 +59847,4 @@ Dispatcher.register(function(action){
 
 module.exports = ComicStore; 
 
-},{"../constants/actionTypes":348,"../dispatcher/appDispatcher":349,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[350]);
+},{"../constants/actionTypes":354,"../dispatcher/appDispatcher":355,"events":82,"lodash":98,"node-uuid":101,"object-assign":102}]},{},[356]);

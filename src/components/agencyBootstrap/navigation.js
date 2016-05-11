@@ -24,7 +24,7 @@ var Navigation = React.createClass({
 								<Link to="bubbles">Conversation</Link>
 							</li>
 							<li>
-								<Link to="bubbles">Characters</Link>
+								<Link to="characters">Characters</Link>
 							</li>
 							<li>
 								<Link to="bubbles">Panels</Link>
