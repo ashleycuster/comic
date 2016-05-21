@@ -59040,6 +59040,13 @@ var ComicActions = {
 				text: text
 			}
 		});
+	},
+
+	addCharacter: function (characterObj) {
+		Dispatcher.dispatch({
+			actionType: ActionTypes.ADD_CHARACTER,
+			characterObject: characterObj
+		});
 	}
 }; 
 
@@ -59255,7 +59262,10 @@ var Body = React.createClass({displayName: "Body",
 
     render: function() {
       return (
-          React.createElement("div", {className: "body"}
+          React.createElement("div", {className: "body"}, 
+            React.createElement("svg", null, 
+              React.createElement("circle", {r: "10", cx: "60", cy: "60"})
+            )
           )
         );
     }
@@ -59715,7 +59725,8 @@ module.exports = NotFoundPage;
 module.exports = { 
 	ADD_BUBBLE: "ADD_BUBBLE",
 	REMOVE_BUBBLE: "REMOVE_BUBBLE",
-	MODIFY_BUBBLE: "MODIFY_BUBBLE"
+	MODIFY_BUBBLE: "MODIFY_BUBBLE",
+	ADD_CHARACTER: "ADD_CHARACTER"
 };
 
 },{}],355:[function(require,module,exports){
@@ -59784,6 +59795,7 @@ var CHANGE_EVENT = 'change';
 
 var _initialId = uuid.v4();
 var _bubbles = [{ id: _initialId, name: null, text: null }];
+var _characterNames = [];
 var _characters = [];
 
 var ComicStore = assign({}, EventEmitter.prototype, {
@@ -59821,6 +59833,19 @@ var ComicStore = assign({}, EventEmitter.prototype, {
 		return _bubbles;
 	}, 
 
+	setCharacterNames: function () {
+		_.forEach(_bubbles, function (bubble) {
+			if ( _.indexOf(_characters, bubble.name ) < 0 ) {
+				_characterNames.push(bubble.name);
+			}
+		});
+		return;
+	},
+
+	addCharacter: function (charObj) {
+		_characters.push(charObj);
+	},
+
 	getCharacters: function () {
 		return _characters;
 	}
@@ -59840,6 +59865,10 @@ Dispatcher.register(function(action){
 			ComicStore.modifyBubble(action.bubble.id, action.bubble.name, action.bubble.text);
 			ComicStore.emitChange();
 			break; 
+		case ActionTypes.ADD_CHARACTER:
+			ComicStore.addCharacter(action.characterObject);
+			ComicStore.emitChange();
+			break;
 		default: 
 			// no op
 	}

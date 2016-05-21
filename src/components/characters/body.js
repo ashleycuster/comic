@@ -38,6 +38,9 @@ var Body = React.createClass({
     render: function() {
       return (
           <div className="body">
+            <svg>
+              <circle r="10" cx="60" cy="60" />
+            </svg>
           </div>
         );
     }

@@ -29,6 +29,13 @@ var ComicActions = {
 				text: text
 			}
 		});
+	},
+
+	addCharacter: function (characterObj) {
+		Dispatcher.dispatch({
+			actionType: ActionTypes.ADD_CHARACTER,
+			characterObject: characterObj
+		});
 	}
 }; 
 
